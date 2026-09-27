@@ -14,29 +14,37 @@ import { useSiteSettings } from '../../hooks/useSiteSettings';
 import { useVisitorCount } from '../../hooks/useVisitorCount';
 
 const FacebookIcon: React.FC = () => (
-  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-  </svg>
+  <span translate="no" className="notranslate inline-flex items-center">
+    <svg className="w-4 h-4 fill-current notranslate" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  </span>
 );
 
 const InstagramIcon: React.FC = () => (
-  <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-  </svg>
+  <span translate="no" className="notranslate inline-flex items-center">
+    <svg className="w-4 h-4 fill-none stroke-current notranslate" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+    </svg>
+  </span>
 );
 
 const YoutubeIcon: React.FC = () => (
-  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-  </svg>
+  <span translate="no" className="notranslate inline-flex items-center">
+    <svg className="w-4 h-4 fill-current notranslate" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+    </svg>
+  </span>
 );
 
 const TwitterIcon: React.FC = () => (
-  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
+  <span translate="no" className="notranslate inline-flex items-center">
+    <svg className="w-4 h-4 fill-current notranslate" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+    </svg>
+  </span>
 );
 
 export const Footer: React.FC = () => {
@@ -149,7 +157,9 @@ export const Footer: React.FC = () => {
             <div className="space-y-3 font-body-md text-body-md text-on-surface-variant">
               {/* Location */}
               <div className="flex items-start gap-3">
-                <MapPin className="text-secondary shrink-0 w-5 h-5 mt-0.5" />
+                <span translate="no" className="notranslate inline-flex items-center shrink-0 mt-0.5">
+                  <MapPin className="text-secondary w-5 h-5" />
+                </span>
                 <span>{settings.locationText}</span>
               </div>
 
@@ -158,7 +168,9 @@ export const Footer: React.FC = () => {
                 const raw = phone.replace(/\s+/g, '');
                 return (
                   <div key={idx} className="flex items-center gap-3">
-                    <Phone className="text-secondary shrink-0 w-4 h-4" />
+                    <span translate="no" className="notranslate inline-flex items-center shrink-0">
+                      <Phone className="text-secondary w-4 h-4" />
+                    </span>
                     <a
                       href={`tel:${raw}`}
                       className="hover:text-primary transition-colors font-medium"
@@ -172,7 +184,9 @@ export const Footer: React.FC = () => {
               {/* Email list */}
               {settings.emails.map((email: string, idx: number) => (
                 <div key={idx} className="flex items-center gap-3">
-                  <Mail className="text-secondary shrink-0 w-4 h-4" />
+                  <span translate="no" className="notranslate inline-flex items-center shrink-0">
+                    <Mail className="text-secondary w-4 h-4" />
+                  </span>
                   <a
                     href={`mailto:${email}`}
                     className="hover:text-primary transition-colors font-medium break-all"
@@ -186,7 +200,9 @@ export const Footer: React.FC = () => {
             {/* Official Non-profit Verification Badge */}
             <div className="pt-2">
               <div className="p-4 rounded-xl bg-surface-container flex items-center gap-3">
-                <ShieldCheck className="text-secondary w-6 h-6 shrink-0" />
+                <span translate="no" className="notranslate inline-flex items-center shrink-0">
+                  <ShieldCheck className="text-secondary w-6 h-6" />
+                </span>
                 <div>
                   <p className="font-label-md text-label-md font-bold text-on-surface">
                     Registered Non-Profit NGO &bull; Est. {settings.establishedYear}
@@ -205,7 +221,9 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
             <p>&copy; {new Date().getFullYear()} {settings.siteName}. All rights reserved.</p>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-xs font-medium text-on-surface-variant border border-outline-variant/40 shadow-xs">
-              <Users className="w-3.5 h-3.5 text-secondary shrink-0" />
+              <span translate="no" className="notranslate inline-flex items-center shrink-0">
+                <Users className="w-3.5 h-3.5 text-secondary" />
+              </span>
               <span>Visitors:</span>
               <span className="font-semibold text-on-surface">
                 {visitorLoading ? '...' : (visitorCount ?? 0).toLocaleString()}
@@ -229,7 +247,9 @@ export const Footer: React.FC = () => {
               to="/admin/login"
               className="inline-flex items-center gap-1 text-on-surface-variant/70 hover:text-primary transition-colors text-[12px]"
             >
-              <Lock className="w-3 h-3" />
+              <span translate="no" className="notranslate inline-flex items-center">
+                <Lock className="w-3 h-3" />
+              </span>
               <span>Admin Portal</span>
             </Link>
           </div>

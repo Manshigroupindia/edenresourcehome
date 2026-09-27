@@ -7,7 +7,6 @@ import {
   deleteDoc,
   doc,
   serverTimestamp,
-  deleteField,
   query,
   orderBy
 } from 'firebase/firestore';
@@ -33,6 +32,11 @@ import {
 } from '../../types/gallery';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
 import { BulkUploadModal } from '../../components/admin/BulkUploadModal';
+import {
+  cleanDisplayTitle,
+  cleanDisplayDescription,
+  formatGalleryTimestamp
+} from '../../lib/galleryUtils';
 
 export const AdminGalleryPage: React.FC = () => {
   const [items, setItems] = useState<GalleryItem[]>([]);
@@ -49,8 +53,10 @@ export const AdminGalleryPage: React.FC = () => {
   const [isBulkModalOpen, setIsBulkModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
 
-  // Modal Form State
+  // Modal Form State (Title & Description are completely optional)
   const [formCategory, setFormCategory] = useState<string>(GALLERY_CATEGORIES[0]);
+  const [formTitle, setFormTitle] = useState('');
+  const [formDescription, setFormDescription] = useState('');
   const [formAltText, setFormAltText] = useState('');
   const [formFile, setFormFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
@@ -64,7 +70,7 @@ export const AdminGalleryPage: React.FC = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Refresh gallery items from Firestore and clean up any legacy title/description fields
+  // Refresh gallery items from Firestore
   const fetchGallery = async () => {
     setLoading(true);
     setError(null);
@@ -74,18 +80,18 @@ export const AdminGalleryPage: React.FC = () => {
       const snapshot = await getDocs(q);
 
       const list: GalleryItem[] = [];
-      const docsToClean: string[] = [];
 
       snapshot.forEach((d) => {
         const data = d.data();
-        if (data.title !== undefined || data.description !== undefined) {
-          docsToClean.push(d.id);
-        }
+        const cleanTitle = cleanDisplayTitle(data.title);
+        const cleanDesc = cleanDisplayDescription(data.description);
         list.push({
           id: d.id,
           imageUrl: data.imageUrl || '',
           cloudinaryPublicId: data.cloudinaryPublicId || '',
           category: data.category || 'Children & Education',
+          title: cleanTitle || '',
+          description: cleanDesc || '',
           altText: data.altText || '',
           createdAt: data.createdAt,
           updatedAt: data.updatedAt
@@ -93,20 +99,6 @@ export const AdminGalleryPage: React.FC = () => {
       });
 
       setItems(list);
-
-      // Clean legacy title and description fields from existing Firestore documents
-      if (docsToClean.length > 0) {
-        for (const docId of docsToClean) {
-          try {
-            await updateDoc(doc(db, 'gallery', docId), {
-              title: deleteField(),
-              description: deleteField()
-            });
-          } catch (cleanErr) {
-            console.warn(`Could not clean old fields from gallery doc ${docId}:`, cleanErr);
-          }
-        }
-      }
     } catch (err: unknown) {
       console.error('Failed to fetch gallery items:', err);
       setError('Could not load gallery records from Firestore.');
@@ -125,18 +117,18 @@ export const AdminGalleryPage: React.FC = () => {
         if (!active) return;
 
         const list: GalleryItem[] = [];
-        const docsToClean: string[] = [];
 
         snapshot.forEach((d) => {
           const data = d.data();
-          if (data.title !== undefined || data.description !== undefined) {
-            docsToClean.push(d.id);
-          }
+          const cleanTitle = cleanDisplayTitle(data.title);
+          const cleanDesc = cleanDisplayDescription(data.description);
           list.push({
             id: d.id,
             imageUrl: data.imageUrl || '',
             cloudinaryPublicId: data.cloudinaryPublicId || '',
             category: data.category || 'Children & Education',
+            title: cleanTitle || '',
+            description: cleanDesc || '',
             altText: data.altText || '',
             createdAt: data.createdAt,
             updatedAt: data.updatedAt
@@ -144,19 +136,6 @@ export const AdminGalleryPage: React.FC = () => {
         });
 
         setItems(list);
-
-        if (docsToClean.length > 0) {
-          for (const docId of docsToClean) {
-            try {
-              await updateDoc(doc(db, 'gallery', docId), {
-                title: deleteField(),
-                description: deleteField()
-              });
-            } catch (cleanErr) {
-              console.warn(`Could not clean old fields from gallery doc ${docId}:`, cleanErr);
-            }
-          }
-        }
       } catch (err: unknown) {
         if (!active) return;
         console.error('Failed to fetch gallery items:', err);
@@ -189,6 +168,8 @@ export const AdminGalleryPage: React.FC = () => {
   const handleOpenAddModal = () => {
     setEditingItem(null);
     setFormCategory(GALLERY_CATEGORIES[0]);
+    setFormTitle('');
+    setFormDescription('');
     setFormAltText('');
     setFormFile(null);
     setFilePreview(null);
@@ -200,6 +181,8 @@ export const AdminGalleryPage: React.FC = () => {
   const handleOpenEditModal = (item: GalleryItem) => {
     setEditingItem(item);
     setFormCategory(item.category || GALLERY_CATEGORIES[0]);
+    setFormTitle(cleanDisplayTitle(item.title) || '');
+    setFormDescription(cleanDisplayDescription(item.description) || '');
     setFormAltText(item.altText || '');
     setFormFile(null);
     setFilePreview(item.imageUrl);
@@ -221,7 +204,7 @@ export const AdminGalleryPage: React.FC = () => {
     e.preventDefault();
     setFormError(null);
 
-    // Validation
+    // Validation (Only file and category are required. Title & description are optional.)
     if (!editingItem && !formFile) {
       setFormError('Please select an image file to upload.');
       return;
@@ -248,12 +231,18 @@ export const AdminGalleryPage: React.FC = () => {
         finalPublicId = uploadResult.public_id;
       }
 
+      const trimmedTitle = formTitle.trim();
+      const trimmedDesc = formDescription.trim();
+      const trimmedAlt = formAltText.trim();
+
       if (editingItem) {
         // Update existing Firestore doc
         const docRef = doc(db, 'gallery', editingItem.id);
         await updateDoc(docRef, {
           category: formCategory,
-          altText: formAltText.trim(),
+          title: trimmedTitle,
+          description: trimmedDesc,
+          altText: trimmedAlt,
           imageUrl: finalImageUrl,
           cloudinaryPublicId: finalPublicId,
           updatedAt: serverTimestamp()
@@ -265,7 +254,9 @@ export const AdminGalleryPage: React.FC = () => {
         const colRef = collection(db, 'gallery');
         await addDoc(colRef, {
           category: formCategory,
-          altText: formAltText.trim(),
+          title: trimmedTitle,
+          description: trimmedDesc,
+          altText: trimmedAlt,
           imageUrl: finalImageUrl,
           cloudinaryPublicId: finalPublicId,
           createdAt: serverTimestamp(),
@@ -483,9 +474,19 @@ export const AdminGalleryPage: React.FC = () => {
                   <span className="font-bold text-primary text-[14px] block">
                     {item.category}
                   </span>
-                  {item.altText && (
-                    <p className="text-[12.5px] text-on-surface-variant mt-1 line-clamp-2 leading-relaxed">
-                      {item.altText}
+                  {item.title && (
+                    <p className="text-[13px] font-semibold text-on-surface mt-1 line-clamp-1">
+                      {item.title}
+                    </p>
+                  )}
+                  {item.description && (
+                    <p className="text-[12px] text-on-surface-variant mt-0.5 line-clamp-2 leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                  {formatGalleryTimestamp(item.createdAt) && (
+                    <p className="text-[11.5px] text-on-surface-variant/75 mt-1 font-medium">
+                      {formatGalleryTimestamp(item.createdAt)}
                     </p>
                   )}
                 </div>
@@ -619,16 +620,44 @@ export const AdminGalleryPage: React.FC = () => {
                 </select>
               </div>
 
-              {/* Alt Text */}
+              {/* Title (Optional) */}
               <div>
                 <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
-                  Accessibility Alt Text
+                  Title <span className="font-normal lowercase text-on-surface-variant/70">(optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  placeholder="Enter optional title or leave blank"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px] focus:outline-none focus:bg-surface"
+                />
+              </div>
+
+              {/* Description (Optional) */}
+              <div>
+                <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
+                  Description <span className="font-normal lowercase text-on-surface-variant/70">(optional)</span>
+                </label>
+                <textarea
+                  rows={2}
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  placeholder="Enter optional description or leave blank"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px] focus:outline-none focus:bg-surface"
+                />
+              </div>
+
+              {/* Alt Text (Optional) */}
+              <div>
+                <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
+                  Accessibility Alt Text <span className="font-normal lowercase text-on-surface-variant/70">(optional)</span>
                 </label>
                 <input
                   type="text"
                   value={formAltText}
                   onChange={(e) => setFormAltText(e.target.value)}
-                  placeholder="Describe image for screen readers"
+                  placeholder="Describe image for screen readers (optional)"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px] focus:outline-none focus:bg-surface"
                 />
               </div>

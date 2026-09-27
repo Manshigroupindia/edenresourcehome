@@ -21,7 +21,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   return (
     <div className="w-full py-16 px-6 rounded-2xl bg-surface-container-low text-center flex flex-col items-center justify-center space-y-4 max-w-lg mx-auto">
       <div className="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
-        <span className="material-symbols-outlined text-[32px]">{icon}</span>
+        <span translate="no" className="notranslate material-symbols-outlined text-[32px]">{icon}</span>
       </div>
       <h3 className="font-headline-sm text-headline-sm text-primary">{title}</h3>
       <p className="font-body-md text-on-surface-variant max-w-sm">{description}</p>

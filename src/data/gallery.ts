@@ -1,9 +1,12 @@
 export interface GalleryItem {
   id: string;
-  category: "Children & Education" | "Activities & Sports" | "Events & Festivals" | "Home & Campus" | "Community & Volunteers";
+  category: "Children & Education" | "Activities & Sports" | "Events & Festivals" | "Home & Campus" | "Community & Volunteers" | string;
   categoryKey: "education" | "sports" | "events" | "campus" | "volunteers";
   image: string;
-  alt: string;
+  alt?: string;
+  title?: string;
+  description?: string;
+  createdAt?: unknown;
 }
 
 export const galleryCategories = [

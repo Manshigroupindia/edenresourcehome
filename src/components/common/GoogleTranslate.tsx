@@ -48,14 +48,15 @@ export const GoogleTranslateHost: React.FC = () => {
   return (
     <div
       id="google_translate_element"
-      className="google-translate-element-container inline-flex items-center min-h-[34px]"
+      translate="no"
+      className="notranslate google-translate-element-container inline-flex items-center min-h-[34px]"
       aria-label="Google Translate language selector"
     />
   );
 };
 
 export const GoogleTranslateIconBadge: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <span className={`inline-flex items-center justify-center text-secondary ${className}`} aria-hidden="true">
+  <span translate="no" className={`notranslate inline-flex items-center justify-center text-secondary ${className}`} aria-hidden="true">
     <Languages className="w-3.5 h-3.5 shrink-0" />
   </span>
 );

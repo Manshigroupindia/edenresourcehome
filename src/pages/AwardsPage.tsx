@@ -22,7 +22,7 @@ export const AwardsPage: React.FC = () => {
           <div className="max-w-7xl mx-auto flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
             <div className="flex items-center gap-2">
               <Link to="/" className="hover:text-primary transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">home</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[16px]">home</span>
                 <span>Home</span>
               </Link>
               <span className="text-outline-variant">/</span>
@@ -43,7 +43,7 @@ export const AwardsPage: React.FC = () => {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-label-md font-label-md">
-                <span className="material-symbols-outlined text-[15px]">verified_user</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[15px]">verified_user</span>
                 <span>Archival Integrity • Since 2001</span>
               </div>
 
@@ -58,7 +58,7 @@ export const AwardsPage: React.FC = () => {
 
             <div className="lg:col-span-4 bg-surface-container-low p-6 rounded-2xl shadow-sm space-y-3 border border-outline-variant/20">
               <div className="flex items-center gap-2 text-secondary">
-                <span className="material-symbols-outlined text-[20px]">policy</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px]">policy</span>
                 <span className="font-title-md text-title-md text-primary font-semibold">
                   Transparency Standard
                 </span>
@@ -147,7 +147,7 @@ export const AwardsPage: React.FC = () => {
                         className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute bottom-2 right-2 bg-primary/80 backdrop-blur-sm text-on-primary px-2.5 py-0.5 rounded text-label-md font-label-md flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">{item.badgeIcon}</span>
+                        <span translate="no" className="notranslate material-symbols-outlined text-[14px]">{item.badgeIcon}</span>
                         <span>{item.type.split(' ')[0]}</span>
                       </div>
                     </div>
@@ -168,7 +168,7 @@ export const AwardsPage: React.FC = () => {
                       onClick={() => setSelectedDocument(item)}
                       className="w-full py-2.5 px-4 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 hover:bg-secondary transition-colors"
                     >
-                      <span className="material-symbols-outlined text-[18px]">zoom_in</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[18px]">zoom_in</span>
                       <span>Inspect Document</span>
                     </button>
                   </div>
@@ -217,7 +217,7 @@ export const AwardsPage: React.FC = () => {
             <div className="lg:col-span-5 flex flex-col justify-center">
               <div className="p-8 rounded-3xl bg-surface-container-lowest shadow-md space-y-6 border border-outline-variant/20">
                 <div className="w-12 h-12 rounded-xl bg-secondary-fixed flex items-center justify-center text-primary">
-                  <span className="material-symbols-outlined text-[28px]">shield</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[28px]">shield</span>
                 </div>
                 <h3 className="font-headline-sm text-headline-sm text-primary font-bold">
                   Institutional Integrity &amp; Transparency
@@ -231,7 +231,7 @@ export const AwardsPage: React.FC = () => {
                     className="inline-flex items-center gap-2 text-secondary font-bold font-label-lg hover:underline"
                   >
                     <span>Arrange Official Inquiries</span>
-                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
                   </Link>
                 </div>
               </div>

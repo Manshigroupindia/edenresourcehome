@@ -50,7 +50,7 @@ export const HomePage: React.FC = () => {
                   to="/donate"
                   className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-lg bg-secondary text-on-secondary font-label-lg text-label-lg shadow-lg hover:bg-secondary-fixed hover:text-on-secondary-fixed transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <span className="material-symbols-outlined text-[18px]">volunteer_activism</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[18px]">volunteer_activism</span>
                   <span>Support Our Children</span>
                 </Link>
 
@@ -59,7 +59,7 @@ export const HomePage: React.FC = () => {
                   className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-surface-container-highest/20 text-white backdrop-blur-sm hover:bg-surface-container-highest/30 transition-all font-label-lg text-label-lg hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span>Learn About Us</span>
-                  <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
                 </Link>
               </div>
             </div>
@@ -71,7 +71,7 @@ export const HomePage: React.FC = () => {
                   key={idx}
                   className="flex items-center gap-3 bg-surface-container-highest/15 backdrop-blur-sm px-4 py-3 rounded-lg"
                 >
-                  <span className="material-symbols-outlined text-secondary-fixed text-[22px]">
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[22px]">
                     {indicator.icon}
                   </span>
                   <span className="font-label-md text-label-md text-surface-container-lowest font-medium">
@@ -88,7 +88,7 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="bg-surface-container-lowest p-6 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition-all border border-outline-variant/20">
               <div className="w-14 h-14 rounded-xl bg-surface-container-low text-secondary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[28px]">calendar_month</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[28px]">calendar_month</span>
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
@@ -105,7 +105,7 @@ export const HomePage: React.FC = () => {
 
             <div className="bg-surface-container-lowest p-6 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition-all border border-outline-variant/20">
               <div className="w-14 h-14 rounded-xl bg-surface-container-low text-secondary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[28px]">groups</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[28px]">groups</span>
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
@@ -122,7 +122,7 @@ export const HomePage: React.FC = () => {
 
             <div className="bg-surface-container-lowest p-6 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition-all border border-outline-variant/20">
               <div className="w-14 h-14 rounded-xl bg-surface-container-low text-secondary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[28px]">hourglass_bottom</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[28px]">hourglass_bottom</span>
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
@@ -139,7 +139,7 @@ export const HomePage: React.FC = () => {
 
             <div className="bg-surface-container-lowest p-6 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition-all border border-outline-variant/20">
               <div className="w-14 h-14 rounded-xl bg-surface-container-low text-secondary flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[28px]">location_on</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[28px]">location_on</span>
               </div>
               <div className="flex flex-col min-w-0">
                 <span className="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
@@ -171,7 +171,7 @@ export const HomePage: React.FC = () => {
                 <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed shrink-0">
-                      <span className="material-symbols-outlined text-[20px]">auto_stories</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[20px]">auto_stories</span>
                     </div>
                     <p className="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
                       Every child is granted full access to textbooks, qualified teachers, nutritious dietary care, and individual mentoring.
@@ -182,7 +182,7 @@ export const HomePage: React.FC = () => {
 
               {/* Overlapping floating badge */}
               <div className="hidden sm:flex absolute -top-6 -right-6 bg-surface-container-lowest p-5 rounded-2xl shadow-xl flex-col items-center text-center max-w-[180px] border border-outline-variant/20">
-                <span className="material-symbols-outlined text-secondary text-[36px] mb-1">cottage</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[36px] mb-1">cottage</span>
                 <span className="font-headline-sm text-headline-sm text-primary leading-tight font-bold">100%</span>
                 <span className="font-label-md text-label-md text-on-surface-variant">Safe Shelter &amp; Family Environment</span>
               </div>
@@ -205,7 +205,7 @@ export const HomePage: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-surface-container-low">
-                  <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">Dignified Shelter</h4>
                     <p className="font-body-sm text-body-sm text-on-surface-variant">Safe, affectionate residential care with wholesome daily living.</p>
@@ -213,7 +213,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-surface-container-low">
-                  <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">Academic Excellence</h4>
                     <p className="font-body-sm text-body-sm text-on-surface-variant">Continuous schooling, books, tuition, and cognitive empowerment.</p>
@@ -221,7 +221,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-surface-container-low">
-                  <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">Health &amp; Nutrition</h4>
                     <p className="font-body-sm text-body-sm text-on-surface-variant">Periodic health screenings, hygienic facilities, and balanced diets.</p>
@@ -229,7 +229,7 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 <div className="flex items-start gap-3 p-3.5 rounded-xl bg-surface-container-low">
-                  <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">check_circle</span>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">Life Skills &amp; Culture</h4>
                     <p className="font-body-sm text-body-sm text-on-surface-variant">Fostering local heritage, recreational athletics, and creative arts.</p>
@@ -243,7 +243,7 @@ export const HomePage: React.FC = () => {
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-sm hover:bg-secondary transition-all"
                 >
                   <span>Learn More About Our Mission</span>
-                  <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
                 </Link>
               </div>
             </div>
@@ -275,7 +275,7 @@ export const HomePage: React.FC = () => {
                 >
                   <div className="space-y-4">
                     <div className="w-12 h-12 rounded-xl bg-surface-container text-secondary flex items-center justify-center">
-                      <span className="material-symbols-outlined text-[26px]">{prog.icon}</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[26px]">{prog.icon}</span>
                     </div>
                     <h3 className="font-title-lg text-title-lg text-primary font-bold">
                       {prog.title}
@@ -292,7 +292,7 @@ export const HomePage: React.FC = () => {
                       className="inline-flex items-center gap-1 text-primary hover:text-secondary font-bold"
                     >
                       <span>Explore</span>
-                      <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[16px]">arrow_forward</span>
                     </Link>
                   </div>
                 </div>
@@ -319,7 +319,7 @@ export const HomePage: React.FC = () => {
               </p>
 
               <div className="p-6 rounded-xl bg-surface-container flex items-center gap-4 border-l-4 border-secondary">
-                <span className="material-symbols-outlined text-secondary text-[32px] shrink-0">format_quote</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[32px] shrink-0">format_quote</span>
                 <p className="font-title-md text-title-md text-primary italic leading-snug">
                   "To see a child smile with renewed self-respect and step boldly into the future is the highest reward of our collective service."
                 </p>
@@ -331,7 +331,7 @@ export const HomePage: React.FC = () => {
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:bg-secondary transition-all"
                 >
                   <span>Read Our Full Story</span>
-                  <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
                 </Link>
               </div>
             </div>
@@ -377,7 +377,7 @@ export const HomePage: React.FC = () => {
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-surface-container-lowest text-primary shadow-sm hover:bg-surface-container-high transition-all font-label-lg text-label-lg shrink-0 border border-outline-variant/20"
               >
                 <span>View Full Gallery</span>
-                <span className="material-symbols-outlined text-[18px]">grid_view</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[18px]">grid_view</span>
               </Link>
             </div>
 
@@ -439,7 +439,7 @@ export const HomePage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-7 space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md">
-                  <span className="material-symbols-outlined text-[16px]">military_tech</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[16px]">military_tech</span>
                   <span>Archival Records &amp; Institutional Milestones</span>
                 </div>
 
@@ -457,7 +457,7 @@ export const HomePage: React.FC = () => {
                     className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg hover:bg-secondary transition-all"
                   >
                     <span>View Awards &amp; Recognition</span>
-                    <span className="material-symbols-outlined text-[18px]">workspace_premium</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[18px]">workspace_premium</span>
                   </Link>
                 </div>
               </div>
@@ -469,7 +469,7 @@ export const HomePage: React.FC = () => {
                     <span className="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary font-bold text-[14px]">
                       2009
                     </span>
-                    <span className="material-symbols-outlined text-secondary text-[22px]">verified</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[22px]">verified</span>
                   </div>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">
@@ -486,7 +486,7 @@ export const HomePage: React.FC = () => {
                     <span className="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary font-bold text-[14px]">
                       2010
                     </span>
-                    <span className="material-symbols-outlined text-secondary text-[22px]">award_star</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[22px]">award_star</span>
                   </div>
                   <div>
                     <h4 className="font-title-md text-title-md text-primary font-bold">

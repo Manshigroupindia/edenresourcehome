@@ -128,7 +128,9 @@ export const Navbar: React.FC = () => {
               title={`Call ${settings.siteName} (${primaryPhone})`}
               aria-label={`Call ${settings.siteName}`}
             >
-              <Phone className="w-3.5 h-3.5 shrink-0 text-primary" aria-hidden="true" />
+              <span translate="no" className="notranslate inline-flex items-center">
+                <Phone className="w-3.5 h-3.5 shrink-0 text-primary" aria-hidden="true" />
+              </span>
               <span className="whitespace-nowrap">Call Us</span>
             </a>
 
@@ -151,11 +153,13 @@ export const Navbar: React.FC = () => {
               aria-controls="mobile-navigation-drawer"
               aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
             >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 shrink-0" strokeWidth={2.2} aria-hidden="true" />
-              ) : (
-                <Menu className="w-6 h-6 shrink-0" strokeWidth={2.2} aria-hidden="true" />
-              )}
+              <span translate="no" className="notranslate inline-flex items-center">
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                ) : (
+                  <Menu className="w-6 h-6 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+                )}
+              </span>
             </button>
           </div>
         </div>
@@ -199,7 +203,9 @@ export const Navbar: React.FC = () => {
               className="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
               aria-label="Close navigation"
             >
-              <X className="w-5 h-5 shrink-0" strokeWidth={2.2} />
+              <span translate="no" className="notranslate inline-flex items-center">
+                <X className="w-5 h-5 shrink-0" strokeWidth={2.2} />
+              </span>
             </button>
           </div>
 
@@ -210,7 +216,9 @@ export const Navbar: React.FC = () => {
               className="w-full inline-flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-secondary-fixed text-on-secondary-fixed font-semibold text-[13.5px] hover:bg-secondary-container transition-colors shadow-xs"
               title={`Call ${settings.siteName}`}
             >
-              <Phone className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />
+              <span translate="no" className="notranslate inline-flex items-center">
+                <Phone className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />
+              </span>
               <span>Call Us ({primaryPhone})</span>
             </a>
 
@@ -242,7 +250,9 @@ export const Navbar: React.FC = () => {
                 }
               >
                 <span className="whitespace-nowrap">{item.label}</span>
-                <ChevronRight className="w-4 h-4 opacity-50 shrink-0" aria-hidden="true" />
+                <span translate="no" className="notranslate inline-flex items-center">
+                  <ChevronRight className="w-4 h-4 opacity-50 shrink-0" aria-hidden="true" />
+                </span>
               </NavLink>
             ))}
           </nav>
@@ -255,7 +265,9 @@ export const Navbar: React.FC = () => {
             className="flex items-center gap-3 p-2.5 rounded-xl bg-surface-container text-primary text-[12.5px] font-medium hover:bg-surface-container-high transition-colors"
             title={`Email ${settings.siteName}`}
           >
-            <Mail className="w-4 h-4 shrink-0 text-secondary" aria-hidden="true" />
+            <span translate="no" className="notranslate inline-flex items-center">
+              <Mail className="w-4 h-4 shrink-0 text-secondary" aria-hidden="true" />
+            </span>
             <span className="truncate">{primaryEmail}</span>
           </a>
         </div>

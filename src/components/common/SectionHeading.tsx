@@ -36,7 +36,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
           }`}
         >
           {badgeIcon && (
-            <span className="material-symbols-outlined text-[16px]">{badgeIcon}</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[16px]">{badgeIcon}</span>
           )}
           <span>{badge}</span>
         </div>

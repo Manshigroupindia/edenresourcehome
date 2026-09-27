@@ -41,7 +41,7 @@ export const DonatePage: React.FC = () => {
 
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-secondary text-primary-fixed text-label-md font-label-md uppercase tracking-wider mb-5 shadow-sm">
-              <span className="material-symbols-outlined text-[16px]">volunteer_activism</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[16px]">volunteer_activism</span>
               <span>Every Gift Transforms A Child's Future</span>
             </div>
 
@@ -56,7 +56,7 @@ export const DonatePage: React.FC = () => {
             {/* Trust Bar Indicators */}
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl">
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-primary/40 backdrop-blur-sm text-left border border-white/10">
-                <span className="material-symbols-outlined text-secondary-fixed text-[26px]">verified</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[26px]">verified</span>
                 <div>
                   <p className="font-title-md text-title-md text-white font-bold leading-none">JJ Act</p>
                   <p className="font-body-sm text-body-sm text-on-primary-container mt-1">Recognized Non-Profit</p>
@@ -64,7 +64,7 @@ export const DonatePage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-primary/40 backdrop-blur-sm text-left border border-white/10">
-                <span className="material-symbols-outlined text-secondary-fixed text-[26px]">home_pin</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[26px]">home_pin</span>
                 <div>
                   <p className="font-title-md text-title-md text-white font-bold leading-none">Ukhrul Home</p>
                   <p className="font-body-sm text-body-sm text-on-primary-container mt-1">Direct Grassroots Reach</p>
@@ -72,7 +72,7 @@ export const DonatePage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-primary/40 backdrop-blur-sm text-left border border-white/10">
-                <span className="material-symbols-outlined text-secondary-fixed text-[26px]">receipt_long</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[26px]">receipt_long</span>
                 <div>
                   <p className="font-title-md text-title-md text-white font-bold leading-none">Full Audit</p>
                   <p className="font-body-sm text-body-sm text-on-primary-container mt-1">Transparent Receipts</p>
@@ -80,7 +80,7 @@ export const DonatePage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-primary/40 backdrop-blur-sm text-left border border-white/10">
-                <span className="material-symbols-outlined text-secondary-fixed text-[26px]">favorite</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[26px]">favorite</span>
                 <div>
                   <p className="font-title-md text-title-md text-white font-bold leading-none">50+ Children</p>
                   <p className="font-body-sm text-body-sm text-on-primary-container mt-1">Sheltered &amp; Educated</p>
@@ -117,7 +117,7 @@ export const DonatePage: React.FC = () => {
 
                 <div className="p-6 space-y-3">
                   <div className="flex items-center gap-2 text-secondary font-bold text-label-md font-label-md">
-                    <span className="material-symbols-outlined text-[18px]">cottage</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[18px]">cottage</span>
                     <span>RESIDENTIAL HOME • TALLUI JUNCTION, UKHRUL</span>
                   </div>
                   <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
@@ -217,7 +217,7 @@ export const DonatePage: React.FC = () => {
               {/* Direct Inquiries Callout */}
               <div className="p-6 rounded-2xl bg-surface-container-low space-y-3 border border-outline-variant/15">
                 <div className="flex items-center gap-2.5 text-primary font-bold font-title-md">
-                  <span className="material-symbols-outlined text-secondary text-[22px]">contact_support</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[22px]">contact_support</span>
                   <span>Have questions regarding donations?</span>
                 </div>
                 <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
@@ -228,14 +228,14 @@ export const DonatePage: React.FC = () => {
                     href={`tel:${primaryPhoneRaw}`}
                     className="inline-flex items-center gap-2 text-secondary font-bold font-body-sm hover:underline"
                   >
-                    <span className="material-symbols-outlined text-[18px]">call</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[18px]">call</span>
                     <span>{primaryPhone}</span>
                   </a>
                   <a
                     href={`mailto:${primaryEmail}`}
                     className="inline-flex items-center gap-2 text-secondary font-bold font-body-sm hover:underline"
                   >
-                    <span className="material-symbols-outlined text-[18px]">mail</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[18px]">mail</span>
                     <span>{primaryEmail}</span>
                   </a>
                 </div>

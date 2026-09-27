@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { GalleryItem } from '../../data/gallery';
+import { cleanDisplayTitle, cleanDisplayDescription, formatGalleryTimestamp } from '../../lib/galleryUtils';
 
 interface GalleryLightboxProps {
   isOpen: boolean;
@@ -40,11 +42,15 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
 
   if (!isOpen || !item) return null;
 
+  const cleanTitle = cleanDisplayTitle(item.title);
+  const cleanDescription = cleanDisplayDescription(item.description);
+  const timestampText = formatGalleryTimestamp(item.createdAt);
+
   return (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={item.alt || item.category}
+      aria-label={cleanTitle || item.category}
       className="fixed inset-0 z-50 bg-primary/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 lg:p-8 animate-in fade-in duration-200"
       onClick={onClose}
     >
@@ -70,7 +76,9 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
               className="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-highest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
               aria-label="Close Preview"
             >
-              <span className="material-symbols-outlined text-[20px]">close</span>
+              <span translate="no" className="notranslate inline-flex items-center justify-center">
+                <X className="w-5 h-5" />
+              </span>
             </button>
           </div>
         </div>
@@ -79,8 +87,9 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
         <div className="relative w-full bg-surface flex items-center justify-center p-2 sm:p-6 overflow-hidden max-h-[62vh]">
           <img
             src={item.image}
-            alt={item.alt}
-            className="max-h-[56vh] w-auto max-w-full rounded-lg object-contain shadow-md"
+            alt={cleanTitle || `${item.category} photograph`}
+            translate="no"
+            className="max-h-[56vh] w-auto max-w-full rounded-lg object-contain shadow-md notranslate"
           />
 
           {/* Quick Prev / Next overlay arrows on large screens */}
@@ -90,7 +99,9 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
             className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm text-primary hover:bg-surface-container-lowest flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95"
             aria-label="Previous Photo"
           >
-            <span className="material-symbols-outlined text-[24px]">chevron_left</span>
+            <span translate="no" className="notranslate inline-flex items-center justify-center">
+              <ChevronLeft className="w-6 h-6" />
+            </span>
           </button>
           <button
             type="button"
@@ -98,19 +109,33 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
             className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm text-primary hover:bg-surface-container-lowest flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95"
             aria-label="Next Photo"
           >
-            <span className="material-symbols-outlined text-[24px]">chevron_right</span>
+            <span translate="no" className="notranslate inline-flex items-center justify-center">
+              <ChevronRight className="w-6 h-6" />
+            </span>
           </button>
         </div>
 
         {/* Caption & Navigation Controls */}
         <div className="p-5 sm:px-6 py-4 bg-surface-container-lowest flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-outline-variant/20">
-          <div className="space-y-1 max-w-2xl">
-            <span className="font-label-md text-label-md text-secondary font-bold uppercase tracking-wider block">
-              {item.category}
-            </span>
-            {item.alt && (
+          <div className="space-y-1.5 max-w-2xl">
+            {/* Optional Title: only show if explicitly provided and not filename */}
+            {cleanTitle && (
+              <h3 className="font-title-md text-title-md text-primary font-bold">
+                {cleanTitle}
+              </h3>
+            )}
+
+            {/* Optional Description: only show if explicitly provided and not filename */}
+            {cleanDescription && (
               <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                {item.alt}
+                {cleanDescription}
+              </p>
+            )}
+
+            {/* Timestamp: "HH:MM AM/PM | DD MMM YYYY" (e.g. "04:40 PM | 25 Sep 2026") */}
+            {timestampText && (
+              <p className="font-body-sm text-body-sm text-on-surface-variant font-medium">
+                {timestampText}
               </p>
             )}
           </div>
@@ -120,17 +145,23 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
               type="button"
               onClick={onPrev}
               className="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-lg text-label-lg hover:bg-surface-variant transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
+              aria-label="Previous Photo"
             >
-              <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+              <span translate="no" className="notranslate inline-flex items-center">
+                <ChevronLeft className="w-4 h-4" />
+              </span>
               <span>Prev</span>
             </button>
             <button
               type="button"
               onClick={onNext}
               className="px-4 py-2 rounded-lg bg-surface-container text-on-surface font-label-lg text-label-lg hover:bg-surface-variant transition-colors inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
+              aria-label="Next Photo"
             >
               <span>Next</span>
-              <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+              <span translate="no" className="notranslate inline-flex items-center">
+                <ChevronRight className="w-4 h-4" />
+              </span>
             </button>
           </div>
         </div>

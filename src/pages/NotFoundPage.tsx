@@ -10,7 +10,7 @@ export const NotFoundPage: React.FC = () => {
       <div className="min-h-[70vh] flex items-center justify-center py-20 px-6">
         <div className="max-w-md w-full text-center space-y-6 bg-surface-container-lowest p-8 sm:p-12 rounded-3xl shadow-sm border border-outline-variant/20">
           <div className="w-20 h-20 rounded-full bg-secondary-fixed text-primary flex items-center justify-center mx-auto shadow-sm">
-            <span className="material-symbols-outlined text-[40px]">cottage</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[40px]">cottage</span>
           </div>
 
           <div className="space-y-2">
@@ -30,7 +30,7 @@ export const NotFoundPage: React.FC = () => {
               to="/"
               className="px-6 py-3 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold hover:bg-secondary transition-colors inline-flex items-center justify-center gap-2"
             >
-              <span className="material-symbols-outlined text-[18px]">home</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[18px]">home</span>
               <span>Back to Home</span>
             </Link>
             <Link

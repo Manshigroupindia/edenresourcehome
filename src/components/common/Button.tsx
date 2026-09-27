@@ -53,11 +53,11 @@ export const Button: React.FC<ButtonProps> = ({
   const content = (
     <>
       {icon && iconPosition === 'left' && (
-        <span className="material-symbols-outlined text-[20px]">{icon}</span>
+        <span translate="no" className="notranslate material-symbols-outlined text-[20px]">{icon}</span>
       )}
       <span>{children}</span>
       {icon && iconPosition === 'right' && (
-        <span className="material-symbols-outlined text-[20px]">{icon}</span>
+        <span translate="no" className="notranslate material-symbols-outlined text-[20px]">{icon}</span>
       )}
     </>
   );

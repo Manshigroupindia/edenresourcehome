@@ -21,6 +21,8 @@ export interface BulkImageItem {
   previewUrl: string;
   name: string;
   sizeFormatted: string;
+  title?: string;
+  description?: string;
   altText: string;
   isValid: boolean;
   validationError?: string;
@@ -46,17 +48,6 @@ const formatFileSize = (bytes: number): string => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-const formatFileNameToAlt = (fileName: string): string => {
-  const base = fileName.replace(/\.[^/.]+$/, '');
-  const clean = base.replace(/[-_.]+/g, ' ').trim();
-  if (!clean) return 'Eden Resource Home photograph';
-  const titleCase = clean
-    .split(' ')
-    .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-    .join(' ');
-  return `${titleCase} - Eden Resource Home`;
-};
 
 const validateFile = (file: File): { isValid: boolean; error?: string } => {
   const hasValidType =
@@ -124,14 +115,15 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 
     const newItems: BulkImageItem[] = Array.from(fileList).map((file, idx) => {
       const validation = validateFile(file);
-      const altText = formatFileNameToAlt(file.name);
       return {
         id: `${file.name}-${file.size}-${Date.now()}-${idx}`,
         file,
         previewUrl: URL.createObjectURL(file),
         name: file.name,
         sizeFormatted: formatFileSize(file.size),
-        altText,
+        title: '',
+        description: '',
+        altText: '',
         isValid: validation.isValid,
         validationError: validation.error,
         status: 'idle',
@@ -220,10 +212,14 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 
           // 2. Add Firestore document
           const colRef = collection(db, 'gallery');
-          const altText = item.altText.trim() || 'Eden Resource Home photograph';
+          const title = item.title?.trim() || '';
+          const description = item.description?.trim() || '';
+          const altText = item.altText?.trim() || '';
 
           await addDoc(colRef, {
             category: commonCategory,
+            title,
+            description,
             altText,
             imageUrl: uploadResult.secure_url,
             cloudinaryPublicId: uploadResult.public_id,
@@ -645,10 +641,25 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
                           </p>
                         )}
 
-                        {/* Alt Text Input */}
+                        {/* Optional Title Input */}
                         <div>
                           <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                            Alt Text
+                            Title <span className="font-normal lowercase text-on-surface-variant/70">(optional)</span>
+                          </label>
+                          <input
+                            type="text"
+                            value={item.title || ''}
+                            disabled={isUploading || item.status === 'success'}
+                            onChange={(e) => handleUpdateItem(item.id, { title: e.target.value })}
+                            className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant/30 text-[12.5px] text-on-surface focus:bg-surface focus:outline-none focus:border-secondary disabled:opacity-60"
+                            placeholder="Optional title"
+                          />
+                        </div>
+
+                        {/* Optional Alt Text Input */}
+                        <div>
+                          <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                            Alt Text <span className="font-normal lowercase text-on-surface-variant/70">(optional)</span>
                           </label>
                           <input
                             type="text"

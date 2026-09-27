@@ -28,10 +28,10 @@ export const ContactPage: React.FC = () => {
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" className="flex items-center gap-2 font-label-md text-label-md text-on-surface-variant mb-4">
               <Link to="/" className="hover:text-primary transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">home</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[16px]">home</span>
                 <span>Home</span>
               </Link>
-              <span className="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
               <span className="text-secondary font-bold">Contact Us</span>
             </nav>
 
@@ -53,7 +53,7 @@ export const ContactPage: React.FC = () => {
             {/* Quick Trust Indicators Strip */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10 pt-8 border-t border-outline-variant/30">
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm border border-outline-variant/15">
-                <span className="material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">verified_user</span>
                 <div>
                   <p className="font-title-md text-title-md text-primary leading-tight font-bold">Child-Safe</p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant">JJ Act &amp; Care Standards</p>
@@ -61,7 +61,7 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm border border-outline-variant/15">
-                <span className="material-symbols-outlined text-secondary text-[24px]">schedule</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">schedule</span>
                 <div>
                   <p className="font-title-md text-title-md text-primary leading-tight font-bold">Prompt Reply</p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant">Within 24-48 working hours</p>
@@ -69,7 +69,7 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm border border-outline-variant/15">
-                <span className="material-symbols-outlined text-secondary text-[24px]">pin_drop</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">pin_drop</span>
                 <div>
                   <p className="font-title-md text-title-md text-primary leading-tight font-bold">Ukhrul Hills</p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant">Manipur, Northeast India</p>
@@ -77,7 +77,7 @@ export const ContactPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-3 p-3.5 rounded-xl bg-surface-container-lowest/80 backdrop-blur-sm shadow-sm border border-outline-variant/15">
-                <span className="material-symbols-outlined text-secondary text-[24px]">volunteer_activism</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">volunteer_activism</span>
                 <div>
                   <p className="font-title-md text-title-md text-primary leading-tight font-bold">Direct Impact</p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant">Transparent Stewardship</p>
@@ -118,7 +118,7 @@ export const ContactPage: React.FC = () => {
                           className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
                         >
                           <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
-                            <span className="material-symbols-outlined text-[20px]">call</span>
+                            <span translate="no" className="notranslate material-symbols-outlined text-[20px]">call</span>
                           </div>
                           <div className="min-w-0">
                             <span className="font-label-md text-label-md text-on-surface-variant block">
@@ -143,7 +143,7 @@ export const ContactPage: React.FC = () => {
                         className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
                       >
                         <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
-                          <span className="material-symbols-outlined text-[20px]">mail</span>
+                          <span translate="no" className="notranslate material-symbols-outlined text-[20px]">mail</span>
                         </div>
                         <div className="min-w-0">
                           <span className="font-label-md text-label-md text-on-surface-variant block">
@@ -163,7 +163,7 @@ export const ContactPage: React.FC = () => {
                 <div className="space-y-3 pt-2">
                   <div className="flex items-start gap-3.5 p-4 rounded-xl bg-surface-container border border-outline-variant/15">
                     <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 text-on-secondary-container">
-                      <span className="material-symbols-outlined text-[20px]">location_on</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[20px]">location_on</span>
                     </div>
                     <div>
                       <span className="font-label-md text-label-md text-on-surface-variant block">Campus Location</span>
@@ -176,7 +176,7 @@ export const ContactPage: React.FC = () => {
 
                   <div className="flex items-start gap-3.5 p-4 rounded-xl bg-surface-container border border-outline-variant/15">
                     <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0 text-on-secondary-container">
-                      <span className="material-symbols-outlined text-[20px]">schedule</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[20px]">schedule</span>
                     </div>
                     <div>
                       <span className="font-label-md text-label-md text-on-surface-variant block">Administration Hours</span>
@@ -192,7 +192,7 @@ export const ContactPage: React.FC = () => {
                 <div className="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-secondary/30 blur-2xl pointer-events-none" />
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-surface-container-lowest/15 flex items-center justify-center text-on-primary shrink-0">
-                    <span className="material-symbols-outlined text-[22px]">shield_person</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[22px]">shield_person</span>
                   </div>
                   <div>
                     <span className="font-label-md text-label-md uppercase tracking-wider text-secondary-fixed font-semibold">
@@ -208,15 +208,15 @@ export const ContactPage: React.FC = () => {
                 </p>
                 <ul className="space-y-3 font-body-sm text-body-sm text-on-primary-container">
                   <li className="flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
                     <span><strong>Prior Notice Mandatory:</strong> Visitors must notify our office at least 48 to 72 hours before arrival to ensure children’s school routines remain undisturbed.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
                     <span><strong>Government Identity:</strong> Please present valid government photo identification (Aadhaar, Passport, or Voter ID) upon arrival at reception.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary-fixed text-[18px] shrink-0 mt-0.5">check_circle</span>
                     <span><strong>Dignity in Photography:</strong> Unconsented photography or recording of minor residents is strictly prohibited to safeguard their personal privacy.</span>
                   </li>
                 </ul>
@@ -239,7 +239,7 @@ export const ContactPage: React.FC = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-fixed text-label-md font-label-md transition-colors"
                   >
-                    <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[16px]">open_in_new</span>
                     <span>Google Maps</span>
                   </a>
                 </div>
@@ -256,7 +256,7 @@ export const ContactPage: React.FC = () => {
                   <div className="absolute bottom-4 left-4 right-4 bg-surface-container-lowest/95 backdrop-blur-md p-3.5 rounded-xl shadow-md max-w-sm">
                     <div className="flex items-start gap-3">
                       <div className="w-9 h-9 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm">
-                        <span className="material-symbols-outlined text-[20px]">location_on</span>
+                        <span translate="no" className="notranslate material-symbols-outlined text-[20px]">location_on</span>
                       </div>
                       <div>
                         <p className="font-title-md text-title-md text-primary font-bold">Eden Resource Home</p>
@@ -273,11 +273,11 @@ export const ContactPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm font-body-sm text-on-surface-variant">
                   <div className="p-3 rounded-lg bg-surface-container-low flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-secondary text-[18px]">directions_car</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[18px]">directions_car</span>
                     <span>Approx. 3.5 hrs scenic drive from Imphal</span>
                   </div>
                   <div className="p-3 rounded-lg bg-surface-container-low flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-secondary text-[18px]">terrain</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[18px]">terrain</span>
                     <span>Elevated hill station climate</span>
                   </div>
                 </div>

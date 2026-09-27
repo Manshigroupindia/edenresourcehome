@@ -7,6 +7,7 @@ import { GalleryLightbox } from '../components/gallery/GalleryLightbox';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
 import { useSiteSettings } from '../hooks/useSiteSettings';
+import { cleanDisplayTitle, cleanDisplayDescription } from '../lib/galleryUtils';
 
 const normalizeCategoryKey = (cat: string): "education" | "sports" | "events" | "campus" | "volunteers" => {
   const lower = cat.toLowerCase();
@@ -39,12 +40,17 @@ export const GalleryPage: React.FC = () => {
           const data = docSnap.data();
           if (data.imageUrl) {
             const catKey = normalizeCategoryKey(data.category || '');
+            const cleanTitle = cleanDisplayTitle(data.title);
+            const cleanDesc = cleanDisplayDescription(data.description);
             loaded.push({
               id: docSnap.id,
               image: data.imageUrl,
-              alt: data.altText || `${settings.siteName} photograph`,
+              alt: cleanTitle || `${settings.siteName} photograph`,
+              title: cleanTitle || undefined,
+              description: cleanDesc || undefined,
               category: (data.category || 'Children & Education') as GalleryItem['category'],
-              categoryKey: catKey
+              categoryKey: catKey,
+              createdAt: data.createdAt
             });
           }
         });
@@ -108,7 +114,7 @@ export const GalleryPage: React.FC = () => {
             {/* Breadcrumb */}
             <nav className="flex items-center gap-2 mb-6 text-on-primary-container text-body-sm font-body-sm">
               <Link to="/" className="hover:text-on-primary transition-colors flex items-center gap-1">
-                <span className="material-symbols-outlined text-[16px]">home</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[16px]">home</span>
                 <span>Home</span>
               </Link>
               <span className="text-secondary/60">/</span>
@@ -194,12 +200,12 @@ export const GalleryPage: React.FC = () => {
                 <div className="relative w-full h-80 overflow-hidden bg-surface-container">
                   <ImageWithFallback
                     src={item.image}
-                    alt={item.alt}
+                    alt={item.title || `${item.category} photograph`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-4 pointer-events-none">
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[12px] font-semibold">
-                      <span className="material-symbols-outlined text-[16px]">visibility</span>
+                      <span translate="no" className="notranslate material-symbols-outlined text-[16px]">visibility</span>
                       <span>View Photo</span>
                     </span>
                   </div>
@@ -208,6 +214,22 @@ export const GalleryPage: React.FC = () => {
                     {item.category}
                   </span>
                 </div>
+
+                {/* Optional Title & Description: only displayed if custom title or description exists */}
+                {(item.title || item.description) && (
+                  <div className="p-4 space-y-1 bg-surface-container-lowest border-t border-outline-variant/15">
+                    {item.title && (
+                      <h3 className="font-bold text-primary text-[15px] line-clamp-1">
+                        {item.title}
+                      </h3>
+                    )}
+                    {item.description && (
+                      <p className="text-body-sm text-on-surface-variant text-[13px] line-clamp-2">
+                        {item.description}
+                      </p>
+                    )}
+                  </div>
+                )}
               </article>
             ))}
           </div>
@@ -218,7 +240,7 @@ export const GalleryPage: React.FC = () => {
           <div className="bg-surface-container-low rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm border border-outline-variant/20">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full bg-secondary/15 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">verified_user</span>
               </div>
               <div className="space-y-1">
                 <h4 className="font-title-lg text-title-lg text-on-surface font-bold">
@@ -236,7 +258,7 @@ export const GalleryPage: React.FC = () => {
                 className="px-5 py-2.5 rounded-lg bg-surface-container-high text-on-surface font-label-lg text-label-lg hover:bg-surface-variant transition-colors inline-flex items-center gap-2"
               >
                 <span>Read Child Policy</span>
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
             </div>
           </div>

@@ -1,9 +1,11 @@
 export interface GalleryItem {
   id: string;
   imageUrl: string;
-  cloudinaryPublicId: string;
+  cloudinaryPublicId?: string;
   category: string;
-  altText: string;
+  title?: string;
+  description?: string;
+  altText?: string;
   createdAt?: unknown;
   updatedAt?: unknown;
 }

@@ -58,7 +58,7 @@ export const DocumentLightbox: React.FC<DocumentLightboxProps> = ({
             className="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-container-highest transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
             aria-label="Close Document Viewer"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
@@ -67,7 +67,8 @@ export const DocumentLightbox: React.FC<DocumentLightboxProps> = ({
           <img
             src={item.image}
             alt={item.alt}
-            className="max-h-[55vh] w-auto max-w-full rounded-lg object-contain shadow-lg border border-outline-variant/30"
+            translate="no"
+            className="max-h-[55vh] w-auto max-w-full rounded-lg object-contain shadow-lg border border-outline-variant/30 notranslate"
           />
         </div>
 
@@ -87,7 +88,7 @@ export const DocumentLightbox: React.FC<DocumentLightboxProps> = ({
           </p>
 
           <div className="p-3.5 rounded-xl bg-surface-container-low flex items-center gap-2.5 text-body-sm text-on-surface-variant">
-            <span className="material-symbols-outlined text-secondary text-[20px]">verified</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px]">verified</span>
             <span>Archival Record • Preserved from official publication files &amp; press documentation</span>
           </div>
         </div>

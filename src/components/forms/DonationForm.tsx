@@ -84,7 +84,7 @@ export const DonationForm: React.FC = () => {
     return (
       <div className="bg-surface-container-lowest rounded-2xl p-8 lg:p-10 shadow-md border border-secondary-fixed/40 space-y-6 text-center animate-in fade-in duration-300">
         <div className="w-16 h-16 rounded-full bg-secondary-fixed text-primary flex items-center justify-center mx-auto shadow-sm">
-          <span className="material-symbols-outlined text-[36px]">volunteer_activism</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-[36px]">volunteer_activism</span>
         </div>
 
         <div className="space-y-2">
@@ -116,7 +116,7 @@ export const DonationForm: React.FC = () => {
         </div>
 
         <div className="p-4 rounded-xl bg-surface-container text-body-sm text-on-surface-variant max-w-lg mx-auto flex items-start gap-3">
-          <span className="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
           <p className="text-left text-xs sm:text-sm">
             Please note: Online payment gateway integration is currently in progress. An official coordinator from Eden Resource Home will reach out to you directly at <strong className="text-on-surface">{formData.email}</strong> or <strong className="text-on-surface">+91 {formData.phone}</strong> with verified contribution details and official acknowledgement receipts.
           </p>
@@ -145,7 +145,7 @@ export const DonationForm: React.FC = () => {
           </h2>
         </div>
         <div className="w-12 h-12 rounded-full bg-secondary-fixed/50 flex items-center justify-center text-primary shrink-0">
-          <span className="material-symbols-outlined text-[24px]">favorite</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-[24px]">favorite</span>
         </div>
       </div>
 
@@ -186,14 +186,14 @@ export const DonationForm: React.FC = () => {
           </div>
           {errors.amount && (
             <p className="text-error text-body-sm flex items-center gap-1.5 pt-1">
-              <span className="material-symbols-outlined text-[16px]">error</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[16px]">error</span>
               {errors.amount}
             </p>
           )}
 
           {formData.amount && parseFloat(formData.amount) > 0 && (
             <div className="flex items-center gap-2 pt-1 text-label-md font-label-md text-secondary">
-              <span className="material-symbols-outlined text-[16px]">eco</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[16px]">eco</span>
               <span>
                 ₹{parseFloat(formData.amount).toLocaleString('en-IN')} will directly support children's welfare in Ukhrul.
               </span>
@@ -204,7 +204,7 @@ export const DonationForm: React.FC = () => {
         {/* Donor Personal Information */}
         <div className="space-y-4">
           <h3 className="font-title-md text-title-md text-on-surface font-semibold flex items-center gap-2">
-            <span className="material-symbols-outlined text-secondary text-[20px]">person</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px]">person</span>
             Donor Information
           </h3>
 
@@ -308,7 +308,7 @@ export const DonationForm: React.FC = () => {
         <div className="space-y-3 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <label className="block font-title-md text-title-md text-on-surface font-semibold flex items-center gap-2">
-              <span className="material-symbols-outlined text-secondary text-[20px]">payments</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px]">payments</span>
               Select Payment Mode
             </label>
             <span className="text-xs text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-md">
@@ -338,7 +338,7 @@ export const DonationForm: React.FC = () => {
                   onChange={() => setFormData({ ...formData, paymentMethod: method.id as any })}
                   className="sr-only"
                 />
-                <span className="material-symbols-outlined text-[24px]">{method.icon}</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[24px]">{method.icon}</span>
                 <span className="font-title-md text-title-md font-bold">{method.label}</span>
                 <span className="font-body-sm text-[12px] opacity-80">{method.desc}</span>
               </label>
@@ -361,7 +361,7 @@ export const DonationForm: React.FC = () => {
             ) : (
               <>
                 <span>Proceed to Donate</span>
-                <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </>
@@ -371,7 +371,7 @@ export const DonationForm: React.FC = () => {
 
         {/* Transparent Notice */}
         <div className="p-4 rounded-xl bg-surface-container flex items-start gap-3">
-          <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">
+          <span translate="no" className="notranslate material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">
             verified_user
           </span>
           <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">

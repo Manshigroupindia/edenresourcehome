@@ -30,13 +30,13 @@ export const AboutPage: React.FC = () => {
               <Link to="/" className="hover:text-surface-bright transition-colors">
                 Home
               </Link>
-              <span className="material-symbols-outlined text-[14px]">chevron_right</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[14px]">chevron_right</span>
               <span className="text-surface-bright font-bold">About Us</span>
             </nav>
 
             <div className="max-w-3xl space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/30 backdrop-blur-sm text-secondary-fixed text-label-md font-label-md">
-                <span className="material-symbols-outlined text-[16px]">volunteer_activism</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[16px]">volunteer_activism</span>
                 <span>Nurturing Lives Since {siteConfig.establishedYear} • Ukhrul, Manipur</span>
               </div>
               
@@ -82,7 +82,7 @@ export const AboutPage: React.FC = () => {
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="inline-flex items-center gap-2 text-secondary font-label-lg text-label-lg font-bold">
-                <span className="material-symbols-outlined text-[20px]">local_library</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px]">local_library</span>
                 <span className="uppercase tracking-wider">The Genesis &amp; Sanctuary</span>
               </div>
 
@@ -104,7 +104,7 @@ export const AboutPage: React.FC = () => {
 
               <div className="pt-2 flex flex-wrap gap-4">
                 <div className="p-4 rounded-xl bg-surface-container flex items-center gap-3">
-                  <span className="material-symbols-outlined text-secondary text-[28px]">cabin</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[28px]">cabin</span>
                   <div>
                     <p className="font-title-md text-title-md text-on-surface font-semibold">
                       Community-Rooted Care
@@ -139,7 +139,7 @@ export const AboutPage: React.FC = () => {
               {/* Overlapping insight badge */}
               <div className="-mt-8 -ml-4 sm:-ml-6 relative z-10 inline-flex items-center gap-4 p-5 rounded-2xl bg-surface-container-lowest shadow-xl max-w-sm border border-outline-variant/20">
                 <div className="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-primary shrink-0">
-                  <span className="material-symbols-outlined text-[26px]">home_pin</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[26px]">home_pin</span>
                 </div>
                 <div>
                   <p className="font-title-md text-title-md text-primary font-bold">
@@ -174,7 +174,7 @@ export const AboutPage: React.FC = () => {
               <div className="p-8 lg:p-10 rounded-2xl bg-surface-container-lowest shadow-md flex flex-col justify-between space-y-6 hover:shadow-xl transition-shadow border border-outline-variant/20">
                 <div className="space-y-5">
                   <div className="w-14 h-14 rounded-2xl bg-secondary-fixed flex items-center justify-center text-primary">
-                    <span className="material-symbols-outlined text-[32px]">favorite</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[32px]">favorite</span>
                   </div>
                   <span className="inline-block px-3 py-1 rounded-full bg-surface-container text-primary font-label-md text-label-md font-bold">
                     OUR MISSION
@@ -187,7 +187,7 @@ export const AboutPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="pt-4 flex items-center gap-3 text-secondary font-title-md text-title-md">
-                  <span className="material-symbols-outlined text-[20px]">check_circle</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[20px]">check_circle</span>
                   <span>Holistic physical, mental &amp; emotional care</span>
                 </div>
               </div>
@@ -196,7 +196,7 @@ export const AboutPage: React.FC = () => {
               <div className="p-8 lg:p-10 rounded-2xl bg-surface-container-lowest shadow-md flex flex-col justify-between space-y-6 hover:shadow-xl transition-shadow border border-outline-variant/20">
                 <div className="space-y-5">
                   <div className="w-14 h-14 rounded-2xl bg-tertiary-fixed flex items-center justify-center text-tertiary">
-                    <span className="material-symbols-outlined text-[32px]">wb_sunny</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[32px]">wb_sunny</span>
                   </div>
                   <span className="inline-block px-3 py-1 rounded-full bg-surface-container text-primary font-label-md text-label-md font-bold">
                     OUR VISION
@@ -209,7 +209,7 @@ export const AboutPage: React.FC = () => {
                   </p>
                 </div>
                 <div className="pt-4 flex items-center gap-3 text-secondary font-title-md text-title-md">
-                  <span className="material-symbols-outlined text-[20px]">verified</span>
+                  <span translate="no" className="notranslate material-symbols-outlined text-[20px]">verified</span>
                   <span>Self-reliant, confident community members</span>
                 </div>
               </div>
@@ -267,7 +267,7 @@ export const AboutPage: React.FC = () => {
                   className="p-6 rounded-2xl bg-surface-container-low shadow-sm flex flex-col items-center text-center space-y-3 group hover:bg-primary hover:text-on-primary transition-all duration-200 border border-outline-variant/15"
                 >
                   <div className="w-12 h-12 rounded-full bg-surface-container-lowest group-hover:bg-secondary flex items-center justify-center text-secondary group-hover:text-on-secondary transition-colors">
-                    <span className="material-symbols-outlined text-[24px]">{val.icon}</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-[24px]">{val.icon}</span>
                   </div>
                   <h4 className="font-title-lg text-title-lg text-primary group-hover:text-surface-bright font-bold">
                     {val.title}
@@ -294,7 +294,7 @@ export const AboutPage: React.FC = () => {
                 </h2>
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container text-on-surface-variant font-label-md text-label-md">
-                <span className="material-symbols-outlined text-secondary text-[16px]">history_edu</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[16px]">history_edu</span>
                 <span>Archival Record Registry (2001 - Present)</span>
               </div>
             </div>
@@ -366,7 +366,7 @@ export const AboutPage: React.FC = () => {
 
                 <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
-                    <span className="material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">verified_user</span>
                     <div>
                       <p className="font-title-md text-title-md text-primary font-bold">
                         {siteConfig.yearsOfService}
@@ -378,7 +378,7 @@ export const AboutPage: React.FC = () => {
                   </div>
 
                   <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
-                    <span className="material-symbols-outlined text-secondary text-[24px]">handshake</span>
+                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">handshake</span>
                     <div>
                       <p className="font-title-md text-title-md text-primary font-bold">Community Trust</p>
                       <p className="font-body-sm text-body-sm text-on-surface-variant">
@@ -442,7 +442,7 @@ export const AboutPage: React.FC = () => {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg shadow-md hover:bg-secondary transition-all shrink-0"
               >
                 <span>View Official Archive Documents</span>
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[18px]">arrow_forward</span>
               </Link>
             </div>
 

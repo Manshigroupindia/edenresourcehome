@@ -88,7 +88,7 @@ export const ContactForm: React.FC = () => {
     return (
       <div className="bg-surface-container-lowest rounded-2xl p-8 lg:p-10 shadow-md border border-secondary-fixed/50 space-y-6 text-center animate-in fade-in duration-300">
         <div className="w-16 h-16 rounded-full bg-secondary-fixed text-primary flex items-center justify-center mx-auto shadow-sm">
-          <span className="material-symbols-outlined text-[36px]">mark_email_read</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-[36px]">mark_email_read</span>
         </div>
 
         <div className="space-y-2">
@@ -107,7 +107,7 @@ export const ContactForm: React.FC = () => {
         </div>
 
         <div className="p-4 rounded-xl bg-surface-container text-body-sm text-on-surface-variant max-w-md mx-auto flex items-start gap-3">
-          <span className="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
           <p className="text-left text-xs sm:text-sm">
             Note: As backend mail service integration is configured, you can also reach our desk directly at{' '}
             <a href="tel:+918974891082" className="text-secondary font-bold underline">+91 89748 91082</a> or{' '}
@@ -148,7 +148,7 @@ export const ContactForm: React.FC = () => {
           </label>
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px]">person</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[20px]">person</span>
             </span>
             <input
               id="contactFullName"
@@ -177,7 +177,7 @@ export const ContactForm: React.FC = () => {
             </label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
-                <span className="material-symbols-outlined text-[20px]">mail</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px]">mail</span>
               </span>
               <input
                 id="contactEmail"
@@ -204,7 +204,7 @@ export const ContactForm: React.FC = () => {
             </label>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
-                <span className="material-symbols-outlined text-[20px]">call</span>
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px]">call</span>
               </span>
               <input
                 id="contactPhone"
@@ -232,7 +232,7 @@ export const ContactForm: React.FC = () => {
           </label>
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
-              <span className="material-symbols-outlined text-[20px]">subject</span>
+              <span translate="no" className="notranslate material-symbols-outlined text-[20px]">subject</span>
             </span>
             <input
               id="contactSubject"
@@ -291,7 +291,7 @@ export const ContactForm: React.FC = () => {
             ) : (
               <>
                 <span>Send Message</span>
-                <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
+                <span translate="no" className="notranslate material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
                   send
                 </span>
               </>

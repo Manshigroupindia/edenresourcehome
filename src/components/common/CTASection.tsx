@@ -28,7 +28,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
 
       <div className="max-w-5xl mx-auto px-6 lg:px-12 text-center space-y-6 relative z-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary-fixed/20 text-secondary-fixed mb-2">
-          <span className="material-symbols-outlined text-[32px]">favorite</span>
+          <span translate="no" className="notranslate material-symbols-outlined text-[32px]">favorite</span>
         </div>
 
         {badge && (
@@ -52,7 +52,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
             to={primaryButtonLink}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-secondary-container text-on-secondary-container font-bold font-label-lg text-label-lg shadow-lg hover:bg-secondary-fixed transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
-            <span className="material-symbols-outlined text-[20px]">volunteer_activism</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[20px]">volunteer_activism</span>
             <span>{primaryButtonText}</span>
           </Link>
 
@@ -60,7 +60,7 @@ export const CTASection: React.FC<CTASectionProps> = ({
             to={secondaryButtonLink}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-surface-container-highest/20 text-white backdrop-blur-sm hover:bg-surface-container-highest/30 transition-all font-label-lg text-label-lg hover:scale-[1.02] active:scale-[0.98]"
           >
-            <span className="material-symbols-outlined text-[20px]">location_on</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[20px]">location_on</span>
             <span>{secondaryButtonText}</span>
           </Link>
         </div>
@@ -68,15 +68,15 @@ export const CTASection: React.FC<CTASectionProps> = ({
         {/* Trust Badges */}
         <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-surface-container-high/80 font-body-sm text-body-sm">
           <span className="flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
             100% Directed to Children's Welfare
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
             Transparent NGO Stewardship
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
+            <span translate="no" className="notranslate material-symbols-outlined text-[16px] text-secondary-fixed">check_circle</span>
             Registered Under JJ Act
           </span>
         </div>

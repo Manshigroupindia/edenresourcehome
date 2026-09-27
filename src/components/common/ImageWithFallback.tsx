@@ -21,7 +21,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
     <div className={`relative overflow-hidden ${className}`}>
       {isLoading && (
         <div className="absolute inset-0 bg-surface-container animate-pulse flex items-center justify-center">
-          <span className="material-symbols-outlined text-outline-variant text-[24px] opacity-40">
+          <span translate="no" className="notranslate material-symbols-outlined text-outline-variant text-[24px] opacity-40">
             photo
           </span>
         </div>
@@ -29,13 +29,14 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
       <img
         src={hasError ? fallbackSrc : src}
         alt={alt}
+        translate="no"
         loading="lazy"
         onLoad={() => setIsLoading(false)}
         onError={() => {
           setHasError(true);
           setIsLoading(false);
         }}
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
+        className={`w-full h-full object-cover transition-opacity duration-300 notranslate ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
         {...props}
