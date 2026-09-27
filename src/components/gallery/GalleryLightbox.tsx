@@ -44,7 +44,7 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={item.title}
+      aria-label={item.alt || item.category}
       className="fixed inset-0 z-50 bg-primary/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 lg:p-8 animate-in fade-in duration-200"
       onClick={onClose}
     >
@@ -57,9 +57,6 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
           <div className="flex items-center gap-3">
             <span className="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-bold uppercase tracking-wider">
               {item.category}
-            </span>
-            <span className="font-label-md text-label-md text-on-surface-variant hidden sm:inline-block">
-              {item.subtitle}
             </span>
           </div>
 
@@ -106,14 +103,16 @@ export const GalleryLightbox: React.FC<GalleryLightboxProps> = ({
         </div>
 
         {/* Caption & Navigation Controls */}
-        <div className="p-5 sm:p-6 bg-surface-container-lowest flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-outline-variant/20">
+        <div className="p-5 sm:px-6 py-4 bg-surface-container-lowest flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-outline-variant/20">
           <div className="space-y-1 max-w-2xl">
-            <h3 className="font-headline-sm text-headline-sm text-on-surface font-semibold">
-              {item.title}
-            </h3>
-            <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-              {item.description}
-            </p>
+            <span className="font-label-md text-label-md text-secondary font-bold uppercase tracking-wider block">
+              {item.category}
+            </span>
+            {item.alt && (
+              <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                {item.alt}
+              </p>
+            )}
           </div>
 
           <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">

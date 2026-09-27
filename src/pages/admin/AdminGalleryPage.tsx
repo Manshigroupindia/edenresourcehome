@@ -7,6 +7,7 @@ import {
   deleteDoc,
   doc,
   serverTimestamp,
+  deleteField,
   query,
   orderBy
 } from 'firebase/firestore';
@@ -49,8 +50,6 @@ export const AdminGalleryPage: React.FC = () => {
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
 
   // Modal Form State
-  const [formTitle, setFormTitle] = useState('');
-  const [formDescription, setFormDescription] = useState('');
   const [formCategory, setFormCategory] = useState<string>(GALLERY_CATEGORIES[0]);
   const [formAltText, setFormAltText] = useState('');
   const [formFile, setFormFile] = useState<File | null>(null);
@@ -65,7 +64,7 @@ export const AdminGalleryPage: React.FC = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Fetch items from Firestore
+  // Refresh gallery items from Firestore and clean up any legacy title/description fields
   const fetchGallery = async () => {
     setLoading(true);
     setError(null);
@@ -75,11 +74,39 @@ export const AdminGalleryPage: React.FC = () => {
       const snapshot = await getDocs(q);
 
       const list: GalleryItem[] = [];
+      const docsToClean: string[] = [];
+
       snapshot.forEach((d) => {
-        list.push({ id: d.id, ...(d.data() as Omit<GalleryItem, 'id'>) });
+        const data = d.data();
+        if (data.title !== undefined || data.description !== undefined) {
+          docsToClean.push(d.id);
+        }
+        list.push({
+          id: d.id,
+          imageUrl: data.imageUrl || '',
+          cloudinaryPublicId: data.cloudinaryPublicId || '',
+          category: data.category || 'Children & Education',
+          altText: data.altText || '',
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt
+        });
       });
 
       setItems(list);
+
+      // Clean legacy title and description fields from existing Firestore documents
+      if (docsToClean.length > 0) {
+        for (const docId of docsToClean) {
+          try {
+            await updateDoc(doc(db, 'gallery', docId), {
+              title: deleteField(),
+              description: deleteField()
+            });
+          } catch (cleanErr) {
+            console.warn(`Could not clean old fields from gallery doc ${docId}:`, cleanErr);
+          }
+        }
+      }
     } catch (err: unknown) {
       console.error('Failed to fetch gallery items:', err);
       setError('Could not load gallery records from Firestore.');
@@ -95,14 +122,41 @@ export const AdminGalleryPage: React.FC = () => {
         const colRef = collection(db, 'gallery');
         const q = query(colRef, orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
-
         if (!active) return;
+
         const list: GalleryItem[] = [];
+        const docsToClean: string[] = [];
+
         snapshot.forEach((d) => {
-          list.push({ id: d.id, ...(d.data() as Omit<GalleryItem, 'id'>) });
+          const data = d.data();
+          if (data.title !== undefined || data.description !== undefined) {
+            docsToClean.push(d.id);
+          }
+          list.push({
+            id: d.id,
+            imageUrl: data.imageUrl || '',
+            cloudinaryPublicId: data.cloudinaryPublicId || '',
+            category: data.category || 'Children & Education',
+            altText: data.altText || '',
+            createdAt: data.createdAt,
+            updatedAt: data.updatedAt
+          });
         });
 
         setItems(list);
+
+        if (docsToClean.length > 0) {
+          for (const docId of docsToClean) {
+            try {
+              await updateDoc(doc(db, 'gallery', docId), {
+                title: deleteField(),
+                description: deleteField()
+              });
+            } catch (cleanErr) {
+              console.warn(`Could not clean old fields from gallery doc ${docId}:`, cleanErr);
+            }
+          }
+        }
       } catch (err: unknown) {
         if (!active) return;
         console.error('Failed to fetch gallery items:', err);
@@ -125,8 +179,7 @@ export const AdminGalleryPage: React.FC = () => {
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
-        item.title?.toLowerCase().includes(q) ||
-        item.description?.toLowerCase().includes(q) ||
+        item.altText?.toLowerCase().includes(q) ||
         item.category?.toLowerCase().includes(q);
       return matchesCategory && matchesSearch;
     });
@@ -135,8 +188,6 @@ export const AdminGalleryPage: React.FC = () => {
   // Open modal for new item
   const handleOpenAddModal = () => {
     setEditingItem(null);
-    setFormTitle('');
-    setFormDescription('');
     setFormCategory(GALLERY_CATEGORIES[0]);
     setFormAltText('');
     setFormFile(null);
@@ -148,8 +199,6 @@ export const AdminGalleryPage: React.FC = () => {
   // Open modal for editing existing item
   const handleOpenEditModal = (item: GalleryItem) => {
     setEditingItem(item);
-    setFormTitle(item.title || '');
-    setFormDescription(item.description || '');
     setFormCategory(item.category || GALLERY_CATEGORIES[0]);
     setFormAltText(item.altText || '');
     setFormFile(null);
@@ -203,10 +252,8 @@ export const AdminGalleryPage: React.FC = () => {
         // Update existing Firestore doc
         const docRef = doc(db, 'gallery', editingItem.id);
         await updateDoc(docRef, {
-          title: formTitle.trim(),
-          description: formDescription.trim(),
           category: formCategory,
-          altText: formAltText.trim() || formTitle.trim(),
+          altText: formAltText.trim(),
           imageUrl: finalImageUrl,
           cloudinaryPublicId: finalPublicId,
           updatedAt: serverTimestamp()
@@ -217,10 +264,8 @@ export const AdminGalleryPage: React.FC = () => {
         // Create new Firestore doc
         const colRef = collection(db, 'gallery');
         await addDoc(colRef, {
-          title: formTitle.trim(),
-          description: formDescription.trim(),
           category: formCategory,
-          altText: formAltText.trim() || formTitle.trim(),
+          altText: formAltText.trim(),
           imageUrl: finalImageUrl,
           cloudinaryPublicId: finalPublicId,
           createdAt: serverTimestamp(),
@@ -413,7 +458,7 @@ export const AdminGalleryPage: React.FC = () => {
               <div className="relative h-48 w-full bg-surface-container overflow-hidden">
                 <ImageWithFallback
                   src={item.imageUrl}
-                  alt={item.altText || item.title}
+                  alt={item.altText || 'Gallery Photograph'}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-3 left-3">
@@ -435,15 +480,12 @@ export const AdminGalleryPage: React.FC = () => {
               {/* Content Details */}
               <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                 <div>
-                  <h3
-                    className="font-bold text-primary text-[15px] leading-snug truncate"
-                    title={item.title || 'Untitled Image'}
-                  >
-                    {item.title || 'Untitled Image'}
-                  </h3>
-                  {item.description && (
+                  <span className="font-bold text-primary text-[14px] block">
+                    {item.category}
+                  </span>
+                  {item.altText && (
                     <p className="text-[12.5px] text-on-surface-variant mt-1 line-clamp-2 leading-relaxed">
-                      {item.description}
+                      {item.altText}
                     </p>
                   )}
                 </div>
@@ -558,20 +600,6 @@ export const AdminGalleryPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Title */}
-              <div>
-                <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  placeholder="e.g. Children in Classroom Reading"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px] focus:outline-none focus:bg-surface"
-                />
-              </div>
-
               {/* Category */}
               <div>
                 <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
@@ -589,20 +617,6 @@ export const AdminGalleryPage: React.FC = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
-                  Description (Optional)
-                </label>
-                <textarea
-                  rows={2}
-                  value={formDescription}
-                  onChange={(e) => setFormDescription(e.target.value)}
-                  placeholder="Optional brief description of this activity or moment..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px] focus:outline-none focus:bg-surface"
-                />
               </div>
 
               {/* Alt Text */}

@@ -262,7 +262,7 @@ export const AdminDashboardPage: React.FC = () => {
                 <div className="h-44 w-full overflow-hidden bg-surface-container-high">
                   <ImageWithFallback
                     src={img.imageUrl}
-                    alt={img.altText || img.title}
+                    alt={img.altText || 'Eden Resource Home Gallery'}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -271,9 +271,11 @@ export const AdminDashboardPage: React.FC = () => {
                     <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-secondary-fixed text-primary">
                       {img.category}
                     </span>
-                    <h3 className="font-bold text-primary text-[14px] mt-1.5 truncate" title={img.title}>
-                      {img.title || 'Untitled Image'}
-                    </h3>
+                    {img.altText && (
+                      <p className="text-[12px] text-on-surface-variant mt-1.5 line-clamp-1">
+                        {img.altText}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

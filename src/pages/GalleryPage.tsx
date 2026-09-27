@@ -41,11 +41,8 @@ export const GalleryPage: React.FC = () => {
             const catKey = normalizeCategoryKey(data.category || '');
             loaded.push({
               id: docSnap.id,
-              title: data.title || `${settings.siteName} Activity`,
-              subtitle: data.category || 'Child Care & Education',
-              description: data.description || '',
               image: data.imageUrl,
-              alt: data.altText || data.title || `${settings.siteName} photograph`,
+              alt: data.altText || `${settings.siteName} photograph`,
               category: (data.category || 'Children & Education') as GalleryItem['category'],
               categoryKey: catKey
             });
@@ -200,20 +197,16 @@ export const GalleryPage: React.FC = () => {
                     alt={item.alt}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-4 pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-[12px] font-semibold">
+                      <span className="material-symbols-outlined text-[16px]">visibility</span>
+                      <span>View Photo</span>
+                    </span>
+                  </div>
 
                   <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm text-primary font-label-md text-label-md font-bold shadow-sm">
                     {item.category}
                   </span>
-
-                  <div className="absolute bottom-4 left-4 right-4 text-on-primary">
-                    <span className="font-label-md text-label-md text-secondary-fixed block mb-1">
-                      {item.subtitle}
-                    </span>
-                    <h3 className="font-headline-sm text-headline-sm font-semibold leading-snug">
-                      {item.title}
-                    </h3>
-                  </div>
                 </div>
               </article>
             ))}

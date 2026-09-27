@@ -78,6 +78,7 @@ export const App: React.FC = () => {
               <Route index element={<AdminDashboardPage />} />
               <Route path="settings" element={<AdminSettingsPage />} />
               <Route path="gallery" element={<AdminGalleryPage />} />
+              <Route path="*" element={<Navigate to="/admin" replace />} />
             </Route>
           </Routes>
         </BrowserRouter>

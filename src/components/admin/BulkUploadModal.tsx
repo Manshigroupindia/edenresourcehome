@@ -21,7 +21,6 @@ export interface BulkImageItem {
   previewUrl: string;
   name: string;
   sizeFormatted: string;
-  title: string;
   altText: string;
   isValid: boolean;
   validationError?: string;
@@ -47,15 +46,16 @@ const formatFileSize = (bytes: number): string => {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 };
 
-const formatFileNameToTitle = (fileName: string): string => {
+const formatFileNameToAlt = (fileName: string): string => {
   const base = fileName.replace(/\.[^/.]+$/, '');
   const clean = base.replace(/[-_.]+/g, ' ').trim();
-  if (!clean) return 'Eden Resource Home Activity';
-  return clean
+  if (!clean) return 'Eden Resource Home photograph';
+  const titleCase = clean
     .split(' ')
     .filter(Boolean)
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
     .join(' ');
+  return `${titleCase} - Eden Resource Home`;
 };
 
 const validateFile = (file: File): { isValid: boolean; error?: string } => {
@@ -82,7 +82,6 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 }) => {
   const [items, setItems] = useState<BulkImageItem[]>([]);
   const [commonCategory, setCommonCategory] = useState<GalleryCategory>(GALLERY_CATEGORIES[0]);
-  const [commonDescription, setCommonDescription] = useState<string>('');
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [overallSummary, setOverallSummary] = useState<{
@@ -125,15 +124,14 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 
     const newItems: BulkImageItem[] = Array.from(fileList).map((file, idx) => {
       const validation = validateFile(file);
-      const title = formatFileNameToTitle(file.name);
+      const altText = formatFileNameToAlt(file.name);
       return {
         id: `${file.name}-${file.size}-${Date.now()}-${idx}`,
         file,
         previewUrl: URL.createObjectURL(file),
         name: file.name,
         sizeFormatted: formatFileSize(file.size),
-        title,
-        altText: `${title} - Eden Resource Home`,
+        altText,
         isValid: validation.isValid,
         validationError: validation.error,
         status: 'idle',
@@ -222,13 +220,9 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
 
           // 2. Add Firestore document
           const colRef = collection(db, 'gallery');
-          const title = item.title.trim() || formatFileNameToTitle(item.name);
-          const altText = item.altText.trim() || title;
-          const description = commonDescription.trim();
+          const altText = item.altText.trim() || 'Eden Resource Home photograph';
 
           await addDoc(colRef, {
-            title,
-            description,
             category: commonCategory,
             altText,
             imageUrl: uploadResult.secure_url,
@@ -395,49 +389,30 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
             </div>
           ) : (
             <>
-              {/* Common Metadata Configuration Bar */}
-              <div className="p-5 rounded-2xl bg-surface-container-low border border-outline-variant/25 space-y-4">
+              {/* Common Category Configuration Bar */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-surface-container-low border border-outline-variant/25 space-y-3">
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <span className="font-bold text-primary text-[14px] uppercase tracking-wider">
-                    Common Metadata for Selected Images
+                    Category for Selected Images
                   </span>
                   <span className="text-[12px] text-on-surface-variant">
                     Applied to all {items.length} chosen image{items.length > 1 ? 's' : ''}
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
-                      Category <span className="text-error">*</span>
-                    </label>
-                    <select
-                      value={commonCategory}
-                      disabled={isUploading}
-                      onChange={(e) => setCommonCategory(e.target.value as GalleryCategory)}
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/30 text-[14px] font-medium text-primary focus:outline-none focus:border-secondary"
-                    >
-                      {GALLERY_CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-[12.5px] font-bold text-primary uppercase tracking-wider mb-1.5">
-                      Shared Description (Optional)
-                    </label>
-                    <input
-                      type="text"
-                      value={commonDescription}
-                      disabled={isUploading}
-                      onChange={(e) => setCommonDescription(e.target.value)}
-                      placeholder="e.g. Annual Sports Meet 2026 at Eden Campus"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/30 text-[14px] focus:outline-none focus:border-secondary"
-                    />
-                  </div>
+                <div className="max-w-md">
+                  <select
+                    value={commonCategory}
+                    disabled={isUploading}
+                    onChange={(e) => setCommonCategory(e.target.value as GalleryCategory)}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/30 text-[14px] font-medium text-primary focus:outline-none focus:border-secondary"
+                  >
+                    {GALLERY_CATEGORIES.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -582,7 +557,7 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
                     <div className="relative h-36 w-full bg-surface-container-high overflow-hidden">
                       <img
                         src={item.previewUrl}
-                        alt={item.title}
+                        alt={item.altText || item.name}
                         className="w-full h-full object-cover"
                       />
 
@@ -669,21 +644,6 @@ export const BulkUploadModal: React.FC<BulkUploadModalProps> = ({
                             {item.errorMessage}
                           </p>
                         )}
-
-                        {/* Title Input */}
-                        <div>
-                          <label className="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
-                            Title
-                          </label>
-                          <input
-                            type="text"
-                            value={item.title}
-                            disabled={isUploading || item.status === 'success'}
-                            onChange={(e) => handleUpdateItem(item.id, { title: e.target.value })}
-                            className="w-full px-2.5 py-1.5 rounded-lg bg-surface-container border border-outline-variant/30 text-[13px] text-primary focus:bg-surface focus:outline-none focus:border-secondary disabled:opacity-60"
-                            placeholder="Image title"
-                          />
-                        </div>
 
                         {/* Alt Text Input */}
                         <div>
