@@ -5,11 +5,13 @@ import {
   Phone,
   Mail,
   ShieldCheck,
-  Lock
+  Lock,
+  Users
 } from 'lucide-react';
 import { EdenLogo } from '../common/EdenLogo';
 import { footerQuickLinks, footerLegalLinks } from '../../data/navigation';
 import { useSiteSettings } from '../../hooks/useSiteSettings';
+import { useVisitorCount } from '../../hooks/useVisitorCount';
 
 const FacebookIcon: React.FC = () => (
   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
@@ -39,6 +41,7 @@ const TwitterIcon: React.FC = () => (
 
 export const Footer: React.FC = () => {
   const { settings } = useSiteSettings();
+  const { count: visitorCount, loading: visitorLoading } = useVisitorCount();
 
   const hasSocials = Boolean(
     settings.socialLinks?.facebook ||
@@ -198,8 +201,17 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Footer Bottom Bar */}
-        <div className="pt-8 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant">
-          <p>&copy; {new Date().getFullYear()} {settings.siteName}. All rights reserved.</p>
+        <div className="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant">
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-center sm:text-left">
+            <p>&copy; {new Date().getFullYear()} {settings.siteName}. All rights reserved.</p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-xs font-medium text-on-surface-variant border border-outline-variant/40 shadow-xs">
+              <Users className="w-3.5 h-3.5 text-secondary shrink-0" />
+              <span>Visitors:</span>
+              <span className="font-semibold text-on-surface">
+                {visitorLoading ? '...' : (visitorCount ?? 0).toLocaleString()}
+              </span>
+            </div>
+          </div>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             {footerLegalLinks.map((link, idx) => (
               <React.Fragment key={link.path}>
@@ -221,6 +233,19 @@ export const Footer: React.FC = () => {
               <span>Admin Portal</span>
             </Link>
           </div>
+        </div>
+
+        {/* Manshi Group Credit */}
+        <div className="pt-4 text-center text-xs text-on-surface-variant/80 border-t border-outline-variant/15 mt-4">
+          Website Designed &amp; Developed by{' '}
+          <a
+            href="https://www.manshigroup.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-secondary hover:text-primary transition-colors underline decoration-secondary/40 hover:decoration-primary underline-offset-2"
+          >
+            Manshi Group Of Services.
+          </a>
         </div>
       </div>
     </footer>

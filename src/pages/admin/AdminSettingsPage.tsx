@@ -12,12 +12,16 @@ import {
   Upload,
   CheckCircle,
   AlertCircle,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Users,
+  RefreshCw
 } from 'lucide-react';
 import { useSiteSettings } from '../../hooks/useSiteSettings';
 import type { SiteSettings } from '../../types/settings';
 import { uploadToCloudinary } from '../../lib/cloudinary';
 import { EdenLogo } from '../../components/common/EdenLogo';
+import { useVisitorCount } from '../../hooks/useVisitorCount';
+import { adjustVisitorCount, setExactVisitorCount } from '../../lib/visitorCounter';
 
 interface AdminSettingsFormProps {
   initialSettings: SiteSettings;
@@ -38,6 +42,68 @@ const AdminSettingsForm: React.FC<AdminSettingsFormProps> = ({ initialSettings, 
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Visitor counter state
+  const { count: visitorCount, loading: visitorLoading } = useVisitorCount();
+  const [customCountInput, setCustomCountInput] = useState<string | null>(null);
+  const [visitorUpdating, setVisitorUpdating] = useState<boolean>(false);
+  const [visitorFeedback, setVisitorFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+
+  const exactCountDisplay = customCountInput !== null
+    ? customCountInput
+    : (visitorCount !== null ? visitorCount.toString() : '');
+
+  const handleAdjustCount = async (delta: number) => {
+    setVisitorUpdating(true);
+    setVisitorFeedback(null);
+    try {
+      await adjustVisitorCount(delta);
+      const sign = delta > 0 ? `+${delta}` : `${delta}`;
+      setVisitorFeedback({
+        type: 'success',
+        message: `Successfully adjusted visitor count by ${sign}.`
+      });
+      setTimeout(() => setVisitorFeedback(null), 4000);
+    } catch (err: any) {
+      setVisitorFeedback({
+        type: 'error',
+        message: err?.message || 'Failed to update visitor count.'
+      });
+    } finally {
+      setVisitorUpdating(false);
+    }
+  };
+
+  const handleSaveExactCount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = parseInt(exactCountDisplay, 10);
+    if (Number.isNaN(parsed) || parsed < 0) {
+      setVisitorFeedback({
+        type: 'error',
+        message: 'Please enter a valid positive integer count.'
+      });
+      return;
+    }
+
+    setVisitorUpdating(true);
+    setVisitorFeedback(null);
+    try {
+      await setExactVisitorCount(parsed);
+      setCustomCountInput(null);
+      setVisitorFeedback({
+        type: 'success',
+        message: `Visitor count successfully set to ${parsed.toLocaleString()}.`
+      });
+      setTimeout(() => setVisitorFeedback(null), 4000);
+    } catch (err: any) {
+      setVisitorFeedback({
+        type: 'error',
+        message: err?.message || 'Failed to save exact visitor count.'
+      });
+    } finally {
+      setVisitorUpdating(false);
+    }
+  };
 
   // Phone list operations
   const handleAddPhone = () => {
@@ -766,6 +832,124 @@ const AdminSettingsForm: React.FC<AdminSettingsFormProps> = ({ initialSettings, 
                 className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container border border-outline-variant/30 text-[14px]"
                 placeholder="Eden Resource Home is a registered child welfare and residential care organization in Tallui Junction, Ukhrul, Manipur."
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Section 7: Visitor Counter Management */}
+        <div className="bg-surface rounded-3xl p-6 sm:p-8 shadow-xs border border-outline-variant/30 space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-outline-variant/20 flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center">
+                <Users className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="font-headline-sm text-primary text-[19px] font-bold">
+                  7. Visitor Counter Controls
+                </h2>
+                <p className="text-body-sm text-on-surface-variant text-[13px]">
+                  View live website visitor statistics and manage or calibrate the displayed counter.
+                </p>
+              </div>
+            </div>
+
+            {/* Live Indicator Pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-xs font-semibold text-secondary border border-secondary/20">
+              <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
+              <span>Live Firestore Sync</span>
+            </div>
+          </div>
+
+          {/* Feedback Alert */}
+          {visitorFeedback && (
+            <div
+              className={`p-4 rounded-xl flex items-center gap-3 text-[13.5px] ${
+                visitorFeedback.type === 'success'
+                  ? 'bg-secondary-fixed/50 text-primary border border-secondary/20'
+                  : 'bg-red-50 text-red-800 border border-red-200'
+              }`}
+            >
+              {visitorFeedback.type === 'success' ? (
+                <CheckCircle className="w-5 h-5 text-secondary shrink-0" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+              )}
+              <span>{visitorFeedback.message}</span>
+            </div>
+          )}
+
+          {/* Current Count Display Metric */}
+          <div className="p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-1">
+                Current Registered Visitors
+              </p>
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight">
+                  {visitorLoading ? '...' : (visitorCount ?? 0).toLocaleString()}
+                </span>
+                <span className="text-xs text-on-surface-variant">total visits</span>
+              </div>
+            </div>
+
+            {/* Quick Adjust Buttons */}
+            <div>
+              <p className="text-xs font-semibold text-on-surface-variant mb-2 sm:text-right">
+                Quick Adjustments:
+              </p>
+              <div className="flex flex-wrap items-center gap-1.5 sm:justify-end">
+                {[-100, -10, -1, 1, 10, 100].map((step) => (
+                  <button
+                    key={step}
+                    type="button"
+                    disabled={visitorUpdating}
+                    onClick={() => handleAdjustCount(step)}
+                    className="px-2.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-semibold text-xs border border-outline-variant/30 active:scale-95 transition-all disabled:opacity-50"
+                  >
+                    {step > 0 ? `+${step}` : step}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Exact Count Input Form */}
+          <div className="p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 space-y-3">
+            <h3 className="text-sm font-bold text-on-surface">
+              Set Exact Visitor Count
+            </h3>
+            <p className="text-xs text-on-surface-variant">
+              Enter a specific starting number or calibrated count (e.g. 15000). This will directly update the database count without resetting previous history.
+            </p>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+              <input
+                type="number"
+                min="0"
+                step="1"
+                disabled={visitorUpdating}
+                value={exactCountDisplay}
+                onChange={(e) => setCustomCountInput(e.target.value)}
+                placeholder="e.g. 15000"
+                className="flex-1 px-3.5 py-2.5 rounded-xl bg-surface border border-outline-variant/30 text-[14px] font-medium"
+              />
+              <button
+                type="button"
+                disabled={visitorUpdating}
+                onClick={handleSaveExactCount}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-secondary text-on-secondary font-semibold text-[13.5px] hover:bg-primary transition-colors disabled:opacity-50 shadow-xs"
+              >
+                {visitorUpdating ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <span>Saving...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>Save Visitor Count</span>
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>

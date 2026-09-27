@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { SiteSettingsProvider } from './contexts/SiteSettingsContext';
+import { recordVisitorSession } from './lib/visitorCounter';
 
 // Layouts & Guards
 import { Navbar } from './components/layout/Navbar';
@@ -41,6 +42,10 @@ const PublicLayout: React.FC = () => {
 };
 
 export const App: React.FC = () => {
+  useEffect(() => {
+    recordVisitorSession();
+  }, []);
+
   return (
     <AuthProvider>
       <SiteSettingsProvider>

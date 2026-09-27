@@ -63,8 +63,8 @@ img {
   text-indent: -9999px;
 }
 
-/* Responsive Navbar Breakpoint: Desktop >= 1024px, Mobile/Tablet < 1024px */
-@media (min-width: 1024px) {
+/* Responsive Navbar Breakpoint: Desktop >= 1280px, Mobile/Tablet < 1280px */
+@media (min-width: 1280px) {
   .desktop-nav {
     display: flex !important;
   }
@@ -82,7 +82,7 @@ img {
   }
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 1279px) {
   .desktop-nav {
     display: none !important;
   }
@@ -92,4 +92,108 @@ img {
   .mobile-menu-button {
     display: flex !important;
   }
+}
+
+/* ========================================================
+   Google Translate Widget Styling & Clean-up
+   ======================================================== */
+
+/* Prevent Google Translate from displacing the viewport */
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+/* Hide default top banner, popups, and highlight artifacts */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Styling the compact translate selector widget */
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0px !important;
+  line-height: normal !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+  margin: 0 !important;
+  padding: 4px 10px !important;
+  font-family: inherit !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: #121c2a !important;
+  background-color: #f1f4fb !important;
+  border: 1px solid rgba(44, 105, 78, 0.25) !important;
+  border-radius: 9999px !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  appearance: auto !important;
+}
+
+.goog-te-gadget .goog-te-combo:hover,
+.goog-te-gadget .goog-te-combo:focus {
+  border-color: #1b4d3e !important;
+  background-color: #e4eaf5 !important;
+}
+
+/* Simple layout styling (.goog-te-gadget-simple) */
+.goog-te-gadget-simple {
+  background-color: #f1f4fb !important;
+  border: 1px solid rgba(44, 105, 78, 0.25) !important;
+  padding: 4px 8px !important;
+  border-radius: 9999px !important;
+  font-size: 12.5px !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  line-height: normal !important;
+  color: #121c2a !important;
+  max-width: 140px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.goog-te-gadget-simple:hover {
+  border-color: #1b4d3e !important;
+  background-color: #e4eaf5 !important;
+}
+
+.goog-te-gadget-simple .goog-te-menu-value {
+  color: #121c2a !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+}
+
+.goog-te-gadget-simple .goog-te-menu-value span {
+  text-decoration: none !important;
+  color: inherit !important;
+  font-size: 12.5px !important;
+}
+
+.goog-te-gadget-simple img {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 2px !important;
 }
