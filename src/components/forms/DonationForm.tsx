@@ -1,0 +1,384 @@
+import React, { useState } from 'react';
+
+interface DonationFormData {
+  amount: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  message: string;
+  paymentMethod: 'upi' | 'card' | 'netbanking';
+}
+
+export const DonationForm: React.FC = () => {
+  const [formData, setFormData] = useState<DonationFormData>({
+    amount: '',
+    fullName: '',
+    email: '',
+    phone: '',
+    message: '',
+    paymentMethod: 'upi'
+  });
+
+  const [errors, setErrors] = useState<Partial<Record<keyof DonationFormData, string>>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validate = (): boolean => {
+    const newErrors: Partial<Record<keyof DonationFormData, string>> = {};
+
+    const amountNum = parseFloat(formData.amount);
+    if (!formData.amount || isNaN(amountNum) || amountNum <= 0) {
+      newErrors.amount = 'Please enter a valid donation amount (minimum ₹1).';
+    }
+
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = 'Full Name is required.';
+    } else if (formData.fullName.trim().length < 2) {
+      newErrors.fullName = 'Please enter your full name.';
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email address is required.';
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.';
+    }
+
+    const phoneClean = formData.phone.replace(/[^0-9]/g, '');
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required.';
+    } else if (phoneClean.length < 10) {
+      newErrors.phone = 'Please enter a valid 10-digit mobile number.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    // Simulate frontend validation & processing flow
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 800);
+  };
+
+  const handleReset = () => {
+    setFormData({
+      amount: '',
+      fullName: '',
+      email: '',
+      phone: '',
+      message: '',
+      paymentMethod: 'upi'
+    });
+    setErrors({});
+    setIsSubmitted(false);
+  };
+
+  if (isSubmitted) {
+    return (
+      <div className="bg-surface-container-lowest rounded-2xl p-8 lg:p-10 shadow-md border border-secondary-fixed/40 space-y-6 text-center animate-in fade-in duration-300">
+        <div className="w-16 h-16 rounded-full bg-secondary-fixed text-primary flex items-center justify-center mx-auto shadow-sm">
+          <span className="material-symbols-outlined text-[36px]">volunteer_activism</span>
+        </div>
+
+        <div className="space-y-2">
+          <h3 className="font-headline-md text-headline-md text-primary font-bold">
+            Thank you for your willingness to support Eden Resource Home.
+          </h3>
+          <p className="font-body-lg text-body-lg text-on-surface-variant max-w-lg mx-auto">
+            Your generous intent to contribute <strong className="text-primary font-bold">₹{parseFloat(formData.amount).toLocaleString('en-IN')}</strong> will help provide loving shelter, nutritious meals, and quality schooling for our children in Ukhrul, Manipur.
+          </p>
+        </div>
+
+        <div className="p-5 rounded-xl bg-surface-container-low text-left space-y-2 text-body-sm text-on-surface-variant max-w-md mx-auto">
+          <div className="flex justify-between border-b border-outline-variant/30 pb-2">
+            <span className="font-semibold text-primary">Donor Name:</span>
+            <span>{formData.fullName}</span>
+          </div>
+          <div className="flex justify-between border-b border-outline-variant/30 pb-2">
+            <span className="font-semibold text-primary">Email:</span>
+            <span>{formData.email}</span>
+          </div>
+          <div className="flex justify-between border-b border-outline-variant/30 pb-2">
+            <span className="font-semibold text-primary">Intended Amount:</span>
+            <span className="font-bold text-secondary">₹{parseFloat(formData.amount).toLocaleString('en-IN')}</span>
+          </div>
+          <div className="flex justify-between pt-1">
+            <span className="font-semibold text-primary">Payment Mode:</span>
+            <span className="uppercase">{formData.paymentMethod}</span>
+          </div>
+        </div>
+
+        <div className="p-4 rounded-xl bg-surface-container text-body-sm text-on-surface-variant max-w-lg mx-auto flex items-start gap-3">
+          <span className="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+          <p className="text-left text-xs sm:text-sm">
+            Please note: Online payment gateway integration is currently in progress. An official coordinator from Eden Resource Home will reach out to you directly at <strong className="text-on-surface">{formData.email}</strong> or <strong className="text-on-surface">+91 {formData.phone}</strong> with verified contribution details and official acknowledgement receipts.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleReset}
+          className="px-6 py-3 rounded-lg bg-surface-container-high text-primary hover:bg-secondary-fixed transition-colors font-label-lg text-label-lg font-semibold"
+        >
+          Submit Another Contribution
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-surface-container-lowest rounded-2xl p-6 sm:p-10 shadow-md">
+      <div className="flex items-center justify-between gap-4 pb-6">
+        <div>
+          <span className="font-label-md text-label-md uppercase tracking-wider text-secondary font-bold">
+            Secure Contribution
+          </span>
+          <h2 className="font-headline-md text-headline-md text-primary mt-1">
+            Direct Gift to Our Home
+          </h2>
+        </div>
+        <div className="w-12 h-12 rounded-full bg-secondary-fixed/50 flex items-center justify-center text-primary shrink-0">
+          <span className="material-symbols-outlined text-[24px]">favorite</span>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} noValidate className="space-y-6">
+        {/* CUSTOM AMOUNT FIELD ONLY - STRICTLY NO PRESET BUTTONS */}
+        <div className="p-5 rounded-xl bg-surface-container-low space-y-3">
+          <label
+            htmlFor="donationAmount"
+            className="block font-title-md text-title-md text-primary font-bold"
+          >
+            Enter Donation Amount (₹) <span className="text-error">*</span>
+          </label>
+          <p className="font-body-sm text-body-sm text-on-surface-variant">
+            Every amount matters. You decide how much you wish to contribute to support our children.
+          </p>
+
+          <div className="relative flex items-center">
+            <span className="absolute left-4 font-headline-md text-headline-md text-primary font-bold select-none pointer-events-none">
+              ₹
+            </span>
+            <input
+              id="donationAmount"
+              name="amount"
+              type="number"
+              min="1"
+              step="any"
+              value={formData.amount}
+              onChange={(e) => {
+                setFormData({ ...formData, amount: e.target.value });
+                if (errors.amount) setErrors({ ...errors, amount: undefined });
+              }}
+              placeholder="Enter amount"
+              required
+              className={`w-full pl-12 pr-4 py-3.5 rounded-lg bg-surface-container-lowest text-primary font-title-lg text-title-lg focus:outline-none focus:ring-2 placeholder:text-on-surface-variant/50 shadow-sm ${
+                errors.amount ? 'ring-2 ring-error' : 'focus:ring-secondary'
+              }`}
+            />
+          </div>
+          {errors.amount && (
+            <p className="text-error text-body-sm flex items-center gap-1.5 pt-1">
+              <span className="material-symbols-outlined text-[16px]">error</span>
+              {errors.amount}
+            </p>
+          )}
+
+          {formData.amount && parseFloat(formData.amount) > 0 && (
+            <div className="flex items-center gap-2 pt-1 text-label-md font-label-md text-secondary">
+              <span className="material-symbols-outlined text-[16px]">eco</span>
+              <span>
+                ₹{parseFloat(formData.amount).toLocaleString('en-IN')} will directly support children's welfare in Ukhrul.
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Donor Personal Information */}
+        <div className="space-y-4">
+          <h3 className="font-title-md text-title-md text-on-surface font-semibold flex items-center gap-2">
+            <span className="material-symbols-outlined text-secondary text-[20px]">person</span>
+            Donor Information
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label htmlFor="fullName" className="block font-label-lg text-label-lg text-on-surface">
+                Full Name <span className="text-error">*</span>
+              </label>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                value={formData.fullName}
+                onChange={(e) => {
+                  setFormData({ ...formData, fullName: e.target.value });
+                  if (errors.fullName) setErrors({ ...errors, fullName: undefined });
+                }}
+                placeholder="e.g. Somatai Kashung"
+                required
+                className={`w-full px-4 py-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 placeholder:text-on-surface-variant/50 ${
+                  errors.fullName ? 'ring-2 ring-error' : 'focus:ring-secondary'
+                }`}
+              />
+              {errors.fullName && (
+                <p className="text-error text-body-sm text-xs">{errors.fullName}</p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="block font-label-lg text-label-lg text-on-surface">
+                Email Address <span className="text-error">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => {
+                  setFormData({ ...formData, email: e.target.value });
+                  if (errors.email) setErrors({ ...errors, email: undefined });
+                }}
+                placeholder="name@example.com"
+                required
+                className={`w-full px-4 py-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 placeholder:text-on-surface-variant/50 ${
+                  errors.email ? 'ring-2 ring-error' : 'focus:ring-secondary'
+                }`}
+              />
+              {errors.email && (
+                <p className="text-error text-body-sm text-xs">{errors.email}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label htmlFor="phoneNumber" className="block font-label-lg text-label-lg text-on-surface">
+              Phone Number (+91) <span className="text-error">*</span>
+            </label>
+            <div className="relative flex items-center">
+              <span className="absolute left-3.5 font-label-lg text-label-lg text-on-surface-variant select-none pointer-events-none">
+                +91
+              </span>
+              <input
+                id="phoneNumber"
+                name="phone"
+                type="tel"
+                maxLength={10}
+                value={formData.phone}
+                onChange={(e) => {
+                  setFormData({ ...formData, phone: e.target.value.replace(/[^0-9]/g, '') });
+                  if (errors.phone) setErrors({ ...errors, phone: undefined });
+                }}
+                placeholder="98765 43210"
+                required
+                className={`w-full pl-12 pr-4 py-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 placeholder:text-on-surface-variant/50 ${
+                  errors.phone ? 'ring-2 ring-error' : 'focus:ring-secondary'
+                }`}
+              />
+            </div>
+            {errors.phone && (
+              <p className="text-error text-body-sm text-xs">{errors.phone}</p>
+            )}
+          </div>
+
+          <div className="space-y-1.5">
+            <label htmlFor="donorMessage" className="block font-label-lg text-label-lg text-on-surface">
+              Optional Message of Encouragement
+            </label>
+            <textarea
+              id="donorMessage"
+              name="message"
+              rows={3}
+              value={formData.message}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+              placeholder="Write an encouraging note or blessing to the children and caretakers in Ukhrul..."
+              className="w-full px-4 py-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-secondary placeholder:text-on-surface-variant/50 resize-y"
+            />
+          </div>
+        </div>
+
+        {/* Payment Mode Selection Placeholder for Future Gateway Connection */}
+        <div className="space-y-3 pt-2">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <label className="block font-title-md text-title-md text-on-surface font-semibold flex items-center gap-2">
+              <span className="material-symbols-outlined text-secondary text-[20px]">payments</span>
+              Select Payment Mode
+            </label>
+            <span className="text-xs text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-md">
+              Gateway connection ready
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { id: 'upi', label: 'UPI / QR', desc: 'Instant via any UPI App', icon: 'qr_code_2' },
+              { id: 'card', label: 'Cards', desc: 'Debit & Credit Cards', icon: 'credit_card' },
+              { id: 'netbanking', label: 'Net Banking', desc: 'All major Indian banks', icon: 'account_balance' },
+            ].map((method) => (
+              <label
+                key={method.id}
+                className={`p-3.5 rounded-xl cursor-pointer transition-all flex flex-col items-center justify-center text-center gap-1.5 border-2 ${
+                  formData.paymentMethod === method.id
+                    ? 'border-secondary bg-secondary-fixed text-primary font-semibold shadow-sm'
+                    : 'border-transparent bg-surface-container-low hover:bg-surface-container text-on-surface'
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value={method.id}
+                  checked={formData.paymentMethod === method.id}
+                  onChange={() => setFormData({ ...formData, paymentMethod: method.id as any })}
+                  className="sr-only"
+                />
+                <span className="material-symbols-outlined text-[24px]">{method.icon}</span>
+                <span className="font-title-md text-title-md font-bold">{method.label}</span>
+                <span className="font-body-sm text-[12px] opacity-80">{method.desc}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="pt-2">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full py-4 px-6 rounded-xl bg-primary text-on-primary font-title-lg text-title-lg font-bold flex items-center justify-center gap-3 shadow-md hover:bg-secondary hover:shadow-lg transition-all group disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <>
+                <div className="w-5 h-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                <span>Validating Information...</span>
+              </>
+            ) : (
+              <>
+                <span>Proceed to Donate</span>
+                <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
+              </>
+            )}
+          </button>
+        </div>
+
+        {/* Transparent Notice */}
+        <div className="p-4 rounded-xl bg-surface-container flex items-start gap-3">
+          <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">
+            verified_user
+          </span>
+          <p className="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            All contributions are directed to Eden Resource Home child care initiatives in Ukhrul, Manipur. Official receipts are issued for transparent record keeping.
+          </p>
+        </div>
+      </form>
+    </div>
+  );
+};
