@@ -1,18 +1,77 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { galleryItems, galleryCategories, type GalleryItem } from '../data/gallery';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../lib/firebase';
+import { galleryItems as defaultGalleryItems, galleryCategories, type GalleryItem } from '../data/gallery';
 import { GalleryLightbox } from '../components/gallery/GalleryLightbox';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { useSiteSettings } from '../hooks/useSiteSettings';
+
+const normalizeCategoryKey = (cat: string): "education" | "sports" | "events" | "campus" | "volunteers" => {
+  const lower = cat.toLowerCase();
+  if (lower.includes('educat') || lower.includes('child')) return 'education';
+  if (lower.includes('sport') || lower.includes('activit')) return 'sports';
+  if (lower.includes('event') || lower.includes('festiv') || lower.includes('award')) return 'events';
+  if (lower.includes('campus') || lower.includes('home') || lower.includes('facilit')) return 'campus';
+  if (lower.includes('communit') || lower.includes('volunt')) return 'volunteers';
+  return 'education';
+};
 
 export const GalleryPage: React.FC = () => {
+  const { settings } = useSiteSettings();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  const [cmsItems, setCmsItems] = useState<GalleryItem[]>([]);
+  const [loadingCms, setLoadingCms] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchCmsGallery = async () => {
+      setLoadingCms(true);
+      try {
+        const colRef = collection(db, 'gallery');
+        const q = query(colRef, orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+
+        const loaded: GalleryItem[] = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data.imageUrl) {
+            const catKey = normalizeCategoryKey(data.category || '');
+            loaded.push({
+              id: docSnap.id,
+              title: data.title || `${settings.siteName} Activity`,
+              subtitle: data.category || 'Child Care & Education',
+              description: data.description || '',
+              image: data.imageUrl,
+              alt: data.altText || data.title || `${settings.siteName} photograph`,
+              category: (data.category || 'Children & Education') as GalleryItem['category'],
+              categoryKey: catKey
+            });
+          }
+        });
+
+        setCmsItems(loaded);
+      } catch (err) {
+        console.warn('Could not load Firestore gallery images, displaying local historical assets.', err);
+      } finally {
+        setLoadingCms(false);
+      }
+    };
+
+    fetchCmsGallery();
+  }, [settings.siteName]);
+
+  // Merge CMS items (newest first) followed by the verified historical local assets
+  const combinedItems = useMemo(() => {
+    return [...cmsItems, ...defaultGalleryItems];
+  }, [cmsItems]);
+
   const filteredItems = useMemo(() => {
-    if (selectedCategory === 'all') return galleryItems;
-    return galleryItems.filter((item) => item.categoryKey === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === 'all') return combinedItems;
+    return combinedItems.filter((item) => item.categoryKey === selectedCategory);
+  }, [selectedCategory, combinedItems]);
 
   const currentLightboxItem: GalleryItem | null =
     lightboxIndex !== null ? filteredItems[lightboxIndex] || null : null;
@@ -38,8 +97,8 @@ export const GalleryPage: React.FC = () => {
   return (
     <>
       <SeoMeta
-        title="Gallery | Eden Resource Home Manipur"
-        description="Visual chronicles of life, study, athletics, cultural celebrations, and community joy at Eden Resource Home in Ukhrul, Manipur."
+        title={`Gallery | ${settings.siteName} Manipur`}
+        description={`Visual chronicles of life, study, athletics, cultural celebrations, and community joy at ${settings.siteName} in Ukhrul, Manipur.`}
       />
 
       <div className="flex flex-col w-full">
@@ -68,7 +127,7 @@ export const GalleryPage: React.FC = () => {
             </h1>
 
             <p className="font-body-lg text-body-lg text-inverse-on-surface/90 max-w-2xl leading-relaxed">
-              A glimpse into daily life, learning, and celebrations at Eden Resource Home. Discover stories of hope, brotherhood, and resilience in Ukhrul, Manipur.
+              A glimpse into daily life, learning, and celebrations at {settings.siteName}. Discover stories of hope, brotherhood, and resilience in Ukhrul, Manipur.
             </p>
 
             {/* Key Snapshot Summary */}
@@ -78,7 +137,9 @@ export const GalleryPage: React.FC = () => {
                 <span className="font-label-md text-label-md text-on-primary-container">Children Cherished</span>
               </div>
               <div className="bg-surface-container-lowest/10 backdrop-blur-md rounded-xl p-4 flex flex-col items-center text-on-primary border border-white/10">
-                <span className="font-stat-display text-stat-display text-secondary-fixed leading-tight">24+</span>
+                <span className="font-stat-display text-stat-display text-secondary-fixed leading-tight">
+                  {new Date().getFullYear() - settings.establishedYear}+
+                </span>
                 <span className="font-label-md text-label-md text-on-primary-container">Years of Care</span>
               </div>
               <div className="bg-surface-container-lowest/10 backdrop-blur-md rounded-xl p-4 flex flex-col items-center text-on-primary border border-white/10">
@@ -117,7 +178,9 @@ export const GalleryPage: React.FC = () => {
             {/* Counter Badge */}
             <div className="flex items-center gap-2 text-on-surface-variant text-label-md font-label-md">
               <span className="inline-block w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
-              <span>Showing {filteredItems.length} Photos</span>
+              <span>
+                Showing {filteredItems.length} Photos {loadingCms && '(Syncing...)'}
+              </span>
             </div>
           </div>
         </section>

@@ -3,10 +3,15 @@ import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Phone, Mail, ChevronRight } from 'lucide-react';
 import { EdenLogo } from '../common/EdenLogo';
 import { navigationItems } from '../../data/navigation';
-import { siteConfig } from '../../data/siteConfig';
+import { useSiteSettings } from '../../hooks/useSiteSettings';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { settings } = useSiteSettings();
+
+  const primaryPhone = settings.phones[0] || '+91 89748 91082';
+  const primaryPhoneRaw = primaryPhone.replace(/\s+/g, '');
+  const primaryEmail = settings.emails[0] || 'support@edenresourcehome.org.in';
 
   // Close mobile menu on browser back/forward navigation
   useEffect(() => {
@@ -57,10 +62,13 @@ export const Navbar: React.FC = () => {
           <Link
             to="/"
             className="flex items-center shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary rounded-lg py-1 pr-1 sm:pr-2"
-            aria-label="Eden Resource Home Home"
+            aria-label={`${settings.siteName} Home`}
             onClick={() => setMobileMenuOpen(false)}
           >
-            <EdenLogo />
+            <EdenLogo
+              customLogoUrl={settings.logoUrl}
+              siteName={settings.siteName}
+            />
           </Link>
 
           {/* Desktop Navigation (>= 1024px) */}
@@ -99,13 +107,13 @@ export const Navbar: React.FC = () => {
           <div className="desktop-ctas hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
             {/* Direct Phone Call Link */}
             <a
-              href={`tel:${siteConfig.phoneRaw}`}
+              href={`tel:${primaryPhoneRaw}`}
               className="inline-flex items-center gap-1.5 xl:gap-2 px-2.5 xl:px-3 py-1.5 rounded-full bg-secondary-fixed text-on-secondary-fixed text-[12px] xl:text-[13px] font-semibold hover:bg-secondary-container transition-colors shadow-xs whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary"
-              title="Call Eden Resource Home"
-              aria-label={`Call Eden Resource Home at ${siteConfig.phone}`}
+              title={`Call ${settings.siteName}`}
+              aria-label={`Call ${settings.siteName} at ${primaryPhone}`}
             >
               <Phone className="w-3.5 h-3.5 shrink-0 text-primary" aria-hidden="true" />
-              <span className="whitespace-nowrap">{siteConfig.phone}</span>
+              <span className="whitespace-nowrap">{primaryPhone}</span>
             </a>
 
             {/* Donate CTA Button */}
@@ -164,7 +172,10 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary rounded-lg"
             >
-              <EdenLogo />
+              <EdenLogo
+                customLogoUrl={settings.logoUrl}
+                siteName={settings.siteName}
+              />
             </Link>
             <button
               type="button"
@@ -201,21 +212,21 @@ export const Navbar: React.FC = () => {
         {/* Drawer Footer Contact Details & Primary CTA */}
         <div className="space-y-3.5 pt-6 mt-6 border-t border-outline-variant/30">
           <a
-            href={`tel:${siteConfig.phoneRaw}`}
+            href={`tel:${primaryPhoneRaw}`}
             className="flex items-center gap-3 p-3 rounded-xl bg-secondary-fixed text-on-secondary-fixed font-semibold text-[13.5px] hover:bg-secondary-container transition-colors shadow-xs"
-            title="Call Eden Resource Home"
+            title={`Call ${settings.siteName}`}
           >
             <Phone className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />
-            <span className="whitespace-nowrap">{siteConfig.phone}</span>
+            <span className="whitespace-nowrap">{primaryPhone}</span>
           </a>
 
           <a
-            href={`mailto:${siteConfig.email}`}
+            href={`mailto:${primaryEmail}`}
             className="flex items-center gap-3 p-3 rounded-xl bg-surface-container text-primary text-[13px] font-medium hover:bg-surface-container-high transition-colors"
-            title="Email Eden Resource Home"
+            title={`Email ${settings.siteName}`}
           >
             <Mail className="w-4 h-4 shrink-0 text-secondary" aria-hidden="true" />
-            <span className="truncate">{siteConfig.email}</span>
+            <span className="truncate">{primaryEmail}</span>
           </a>
 
           <Link

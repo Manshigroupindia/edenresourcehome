@@ -3,13 +3,19 @@ import { Link } from 'react-router-dom';
 import { DonationForm } from '../components/forms/DonationForm';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export const DonatePage: React.FC = () => {
+  const { settings } = useSiteSettings();
+  const primaryPhone = settings.phones[0] || '+91 89748 91082';
+  const primaryPhoneRaw = primaryPhone.replace(/\s+/g, '');
+  const primaryEmail = settings.emails[0] || 'support@edenresourcehome.org.in';
+
   return (
     <>
       <SeoMeta
-        title="Donate | Eden Resource Home Manipur"
-        description="Support vulnerable children in Ukhrul, Manipur. Contribute custom voluntary support for daily meals, school supplies, winter clothing, and healthcare."
+        title={`Donate | ${settings.siteName} Manipur`}
+        description={`Support vulnerable children in Ukhrul, Manipur through ${settings.siteName}. Contribute custom voluntary support for daily meals, school supplies, winter clothing, and healthcare.`}
       />
 
       <div className="flex flex-col w-full">
@@ -219,18 +225,18 @@ export const DonatePage: React.FC = () => {
                 </p>
                 <div className="pt-1 flex flex-col sm:flex-row gap-3">
                   <a
-                    href="tel:+918974891082"
+                    href={`tel:${primaryPhoneRaw}`}
                     className="inline-flex items-center gap-2 text-secondary font-bold font-body-sm hover:underline"
                   >
                     <span className="material-symbols-outlined text-[18px]">call</span>
-                    <span>+91 89748 91082</span>
+                    <span>{primaryPhone}</span>
                   </a>
                   <a
-                    href="mailto:support@edenresourcehome.org.in"
+                    href={`mailto:${primaryEmail}`}
                     className="inline-flex items-center gap-2 text-secondary font-bold font-body-sm hover:underline"
                   >
                     <span className="material-symbols-outlined text-[18px]">mail</span>
-                    <span>support@edenresourcehome.org.in</span>
+                    <span>{primaryEmail}</span>
                   </a>
                 </div>
               </div>

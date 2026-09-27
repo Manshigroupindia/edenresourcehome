@@ -1,50 +1,122 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  ShieldCheck,
+  Lock
+} from 'lucide-react';
 import { EdenLogo } from '../common/EdenLogo';
-import { siteConfig } from '../../data/siteConfig';
 import { footerQuickLinks, footerLegalLinks } from '../../data/navigation';
+import { useSiteSettings } from '../../hooks/useSiteSettings';
+
+const FacebookIcon: React.FC = () => (
+  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
+
+const InstagramIcon: React.FC = () => (
+  <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+  </svg>
+);
+
+const YoutubeIcon: React.FC = () => (
+  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
+const TwitterIcon: React.FC = () => (
+  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+  </svg>
+);
 
 export const Footer: React.FC = () => {
+  const { settings } = useSiteSettings();
+
+  const hasSocials = Boolean(
+    settings.socialLinks?.facebook ||
+    settings.socialLinks?.instagram ||
+    settings.socialLinks?.youtube ||
+    settings.socialLinks?.twitter
+  );
+
   return (
     <footer className="w-full bg-surface-container-low mt-space-xxl shadow-[0_-1px_6px_rgba(20,54,39,0.03)] border-t border-outline-variant/20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-12">
           {/* Organization Bio */}
           <div className="lg:col-span-5 space-y-4">
-            <Link to="/" className="inline-block" aria-label="Eden Resource Home Home">
-              <EdenLogo />
+            <Link to="/" className="inline-block" aria-label={`${settings.siteName} Home`}>
+              <EdenLogo
+                customLogoUrl={settings.logoUrl}
+                siteName={settings.siteName}
+              />
             </Link>
+
             <p className="font-title-md text-title-md text-secondary font-semibold">
-              {siteConfig.tagline}
+              {settings.tagline || 'Care, Education & A Brighter Future'}
             </p>
+
             <p className="font-body-md text-body-md text-on-surface-variant max-w-md leading-relaxed">
               Dedicated to nurturing, sheltering, and educating vulnerable children in Ukhrul District, Manipur. Providing dignified residential care, comprehensive schooling, and a foundation of security for enduring personal growth.
             </p>
-            
-            {/* Community Engagement Indicators */}
-            <div className="flex items-center gap-3 pt-2">
-              <div
-                className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors cursor-pointer"
-                title="Community Updates"
-                aria-label="Community Updates"
-              >
-                <span className="material-symbols-outlined text-[18px]">public</span>
+
+            {/* Social Media Channels (Rendered only if configured in CMS) */}
+            {hasSocials && (
+              <div className="flex items-center gap-2.5 pt-2">
+                {settings.socialLinks?.facebook && (
+                  <a
+                    href={settings.socialLinks.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors"
+                    aria-label="Facebook"
+                  >
+                    <FacebookIcon />
+                  </a>
+                )}
+                {settings.socialLinks?.instagram && (
+                  <a
+                    href={settings.socialLinks.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <InstagramIcon />
+                  </a>
+                )}
+                {settings.socialLinks?.youtube && (
+                  <a
+                    href={settings.socialLinks.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors"
+                    aria-label="YouTube"
+                  >
+                    <YoutubeIcon />
+                  </a>
+                )}
+                {settings.socialLinks?.twitter && (
+                  <a
+                    href={settings.socialLinks.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors"
+                    aria-label="Twitter / X"
+                  >
+                    <TwitterIcon />
+                  </a>
+                )}
               </div>
-              <div
-                className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors cursor-pointer"
-                title="Photo Documentation"
-                aria-label="Photo Stream"
-              >
-                <span className="material-symbols-outlined text-[18px]">photo_camera</span>
-              </div>
-              <div
-                className="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-primary hover:text-on-primary transition-colors cursor-pointer"
-                title="Video Archival"
-                aria-label="Video Documentation"
-              >
-                <span className="material-symbols-outlined text-[18px]">video_library</span>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Quick Links Column */}
@@ -72,45 +144,49 @@ export const Footer: React.FC = () => {
               Direct Contact
             </h4>
             <div className="space-y-3 font-body-md text-body-md text-on-surface-variant">
+              {/* Location */}
               <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-secondary shrink-0 text-[20px] mt-0.5">
-                  location_on
-                </span>
-                <span>{siteConfig.fullAddress}</span>
+                <MapPin className="text-secondary shrink-0 w-5 h-5 mt-0.5" />
+                <span>{settings.locationText}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-secondary shrink-0 text-[20px]">
-                  call
-                </span>
-                <a
-                  href={`tel:${siteConfig.phoneRaw}`}
-                  className="hover:text-primary transition-colors font-medium"
-                >
-                  {siteConfig.phone}
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-secondary shrink-0 text-[20px]">
-                  mail
-                </span>
-                <a
-                  href={`mailto:${siteConfig.email}`}
-                  className="hover:text-primary transition-colors font-medium break-all"
-                >
-                  {siteConfig.email}
-                </a>
-              </div>
+
+              {/* Phone list */}
+              {settings.phones.map((phone: string, idx: number) => {
+                const raw = phone.replace(/\s+/g, '');
+                return (
+                  <div key={idx} className="flex items-center gap-3">
+                    <Phone className="text-secondary shrink-0 w-4 h-4" />
+                    <a
+                      href={`tel:${raw}`}
+                      className="hover:text-primary transition-colors font-medium"
+                    >
+                      {phone}
+                    </a>
+                  </div>
+                );
+              })}
+
+              {/* Email list */}
+              {settings.emails.map((email: string, idx: number) => (
+                <div key={idx} className="flex items-center gap-3">
+                  <Mail className="text-secondary shrink-0 w-4 h-4" />
+                  <a
+                    href={`mailto:${email}`}
+                    className="hover:text-primary transition-colors font-medium break-all"
+                  >
+                    {email}
+                  </a>
+                </div>
+              ))}
             </div>
 
             {/* Official Non-profit Verification Badge */}
             <div className="pt-2">
               <div className="p-4 rounded-xl bg-surface-container flex items-center gap-3">
-                <span className="material-symbols-outlined text-secondary text-[24px]">
-                  verified
-                </span>
+                <ShieldCheck className="text-secondary w-6 h-6 shrink-0" />
                 <div>
                   <p className="font-label-md text-label-md font-bold text-on-surface">
-                    Registered Non-Profit NGO
+                    Registered Non-Profit NGO &bull; Est. {settings.establishedYear}
                   </p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant">
                     Serving children &amp; community with transparent stewardship
@@ -123,11 +199,11 @@ export const Footer: React.FC = () => {
 
         {/* Footer Bottom Bar */}
         <div className="pt-8 border-t border-outline-variant/30 flex flex-col sm:flex-row items-center justify-between gap-4 font-body-sm text-body-sm text-on-surface-variant">
-          <p>© {new Date().getFullYear()} Eden Resource Home. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+          <p>&copy; {new Date().getFullYear()} {settings.siteName}. All rights reserved.</p>
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             {footerLegalLinks.map((link, idx) => (
               <React.Fragment key={link.path}>
-                {idx > 0 && <span className="text-outline-variant">•</span>}
+                {idx > 0 && <span className="text-outline-variant">&bull;</span>}
                 <Link
                   to={link.path}
                   className="hover:text-primary transition-colors"
@@ -136,6 +212,14 @@ export const Footer: React.FC = () => {
                 </Link>
               </React.Fragment>
             ))}
+            <span className="text-outline-variant">&bull;</span>
+            <Link
+              to="/admin/login"
+              className="inline-flex items-center gap-1 text-on-surface-variant/70 hover:text-primary transition-colors text-[12px]"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Admin Portal</span>
+            </Link>
           </div>
         </div>
       </div>

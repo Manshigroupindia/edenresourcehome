@@ -3,13 +3,19 @@ import { Link } from 'react-router-dom';
 import { siteConfig } from '../data/siteConfig';
 import { ContactForm } from '../components/forms/ContactForm';
 import { SeoMeta } from '../components/common/SeoMeta';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 export const ContactPage: React.FC = () => {
+  const { settings } = useSiteSettings();
+
+  const primaryPhone = settings.phones[0] || siteConfig.phone;
+  const primaryEmail = settings.emails[0] || siteConfig.email;
+
   return (
     <>
       <SeoMeta
-        title="Contact Us | Eden Resource Home Manipur"
-        description="Get in touch with Eden Resource Home in Tallui Junction, Ukhrul District, Manipur. Call +91 89748 91082 or email support@edenresourcehome.org.in."
+        title={`Contact Us | ${settings.siteName} Manipur`}
+        description={`Get in touch with ${settings.siteName} in ${settings.locationText}. Call ${primaryPhone} or email ${primaryEmail}.`}
       />
 
       <div className="flex flex-col w-full">
@@ -100,40 +106,57 @@ export const ContactPage: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Phone */}
-                  <a
-                    href={`tel:${siteConfig.phoneRaw}`}
-                    className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
-                      <span className="material-symbols-outlined text-[20px]">call</span>
-                    </div>
-                    <div className="min-w-0">
-                      <span className="font-label-md text-label-md text-on-surface-variant block">Primary Phone</span>
-                      <span className="font-title-md text-title-md text-primary font-bold block truncate">
-                        {siteConfig.phone}
-                      </span>
-                      <span className="font-body-sm text-body-sm text-secondary">Tap to Call Directly</span>
-                    </div>
-                  </a>
+                <div className="space-y-3">
+                  {/* Dynamic Phones */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {settings.phones.map((phone: string, idx: number) => {
+                      const raw = phone.replace(/\s+/g, '');
+                      return (
+                        <a
+                          key={idx}
+                          href={`tel:${raw}`}
+                          className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
+                        >
+                          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
+                            <span className="material-symbols-outlined text-[20px]">call</span>
+                          </div>
+                          <div className="min-w-0">
+                            <span className="font-label-md text-label-md text-on-surface-variant block">
+                              {idx === 0 ? 'Primary Phone' : `Alternate Phone ${idx + 1}`}
+                            </span>
+                            <span className="font-title-md text-title-md text-primary font-bold block truncate">
+                              {phone}
+                            </span>
+                            <span className="font-body-sm text-body-sm text-secondary">Tap to Call Directly</span>
+                          </div>
+                        </a>
+                      );
+                    })}
+                  </div>
 
-                  {/* Email */}
-                  <a
-                    href={`mailto:${siteConfig.email}`}
-                    className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
-                  >
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
-                      <span className="material-symbols-outlined text-[20px]">mail</span>
-                    </div>
-                    <div className="min-w-0">
-                      <span className="font-label-md text-label-md text-on-surface-variant block">General Email</span>
-                      <span className="font-title-md text-title-md text-primary font-bold block truncate">
-                        {siteConfig.email}
-                      </span>
-                      <span className="font-body-sm text-body-sm text-secondary">Inquiries &amp; Receipts</span>
-                    </div>
-                  </a>
+                  {/* Dynamic Emails */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {settings.emails.map((email: string, idx: number) => (
+                      <a
+                        key={idx}
+                        href={`mailto:${email}`}
+                        className="group flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-secondary-fixed transition-colors border border-outline-variant/15"
+                      >
+                        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 text-on-primary group-hover:bg-secondary transition-colors">
+                          <span className="material-symbols-outlined text-[20px]">mail</span>
+                        </div>
+                        <div className="min-w-0">
+                          <span className="font-label-md text-label-md text-on-surface-variant block">
+                            {idx === 0 ? 'General Inquiries' : `Department Email ${idx + 1}`}
+                          </span>
+                          <span className="font-title-md text-title-md text-primary font-bold block truncate">
+                            {email}
+                          </span>
+                          <span className="font-body-sm text-body-sm text-secondary">Inquiries &amp; Receipts</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Campus Address & Hours */}
@@ -144,8 +167,10 @@ export const ContactPage: React.FC = () => {
                     </div>
                     <div>
                       <span className="font-label-md text-label-md text-on-surface-variant block">Campus Location</span>
-                      <p className="font-title-md text-title-md text-on-surface font-semibold">{siteConfig.location}</p>
-                      <p className="font-body-sm text-body-sm text-on-surface-variant">{siteConfig.fullAddress}</p>
+                      <p className="font-title-md text-title-md text-on-surface font-semibold">{settings.locationText}</p>
+                      <p className="font-body-sm text-body-sm text-on-surface-variant">
+                        {[settings.address.line1, settings.address.line2, settings.address.city, settings.address.state, settings.address.country, settings.address.postalCode].filter(Boolean).join(', ')}
+                      </p>
                     </div>
                   </div>
 
