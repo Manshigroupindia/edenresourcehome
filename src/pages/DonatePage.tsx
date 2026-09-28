@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DonationForm } from '../components/forms/DonationForm';
-import { DonationPaymentDetails } from '../components/donation/DonationPaymentDetails';
+import { BankAccountDetailsCard } from '../components/donation/BankAccountDetailsCard';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
 import { useSiteSettings } from '../hooks/useSiteSettings';
@@ -94,9 +94,10 @@ export const DonatePage: React.FC = () => {
         {/* MAIN DONATION ENGINE & IMPACT SIDEBAR */}
         <section className="max-w-7xl mx-auto px-6 lg:px-12 py-12 lg:py-20 w-full -mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* Primary Custom Amount Donation Form (7 cols) */}
-            <div className="lg:col-span-7">
+            {/* Primary Custom Amount Donation Form & Bank Account Details directly underneath (7 cols) */}
+            <div className="lg:col-span-7 space-y-6">
               <DonationForm />
+              <BankAccountDetailsCard />
             </div>
 
             {/* Right Column: Visual Narrative & Transparency Impact (5 cols) */}
@@ -244,9 +245,6 @@ export const DonatePage: React.FC = () => {
             </div>
           </div>
         </section>
-
-        {/* CMS-MANAGED DIRECT PAYMENT DETAILS (UPI & BANK TRANSFER) */}
-        <DonationPaymentDetails />
       </div>
     </>
   );
