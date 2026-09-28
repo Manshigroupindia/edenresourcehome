@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import defaultLogo from '../../assets/logo.png';
 
 interface EdenLogoProps {
   showText?: boolean;
@@ -17,64 +18,45 @@ export const EdenLogo: React.FC<EdenLogoProps> = ({
   customLogoUrl,
   siteName = 'Eden Resource Home',
 }) => {
-  const renderEmblem = () => {
-    if (customLogoUrl) {
-      return (
-        <img
-          src={customLogoUrl}
-          alt={siteName}
-          translate="no"
-          className="notranslate h-10 w-10 shrink-0 object-contain"
-        />
-      );
-    }
+  const [imageError, setImageError] = useState(false);
 
+  // Use custom CMS logo if provided and valid, otherwise fallback to official assets/logo.png
+  const logoSrc = (!imageError && customLogoUrl && customLogoUrl.trim().length > 0)
+    ? customLogoUrl
+    : defaultLogo;
+
+  const renderEmblem = (sizeClass = 'h-10 w-10 sm:h-11 sm:w-11') => (
+    <img
+      src={logoSrc}
+      alt={siteName}
+      data-brand-logo="true"
+      translate="no"
+      onError={() => setImageError(true)}
+      className={`notranslate ${sizeClass} shrink-0 object-contain`}
+      style={{ objectFit: 'contain' }}
+    />
+  );
+
+  if (iconOnly || !showText) {
     return (
-      <span translate="no" className="notranslate inline-flex shrink-0">
-        <svg
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-10 w-10 shrink-0 notranslate"
-          aria-hidden="true"
-        >
-          {/* Sunburst */}
-          <path d="M40 18 L40 8" stroke="#E9B872" strokeWidth="3" strokeLinecap="round" />
-          <path d="M28 21 L22 13" stroke="#E9B872" strokeWidth="3" strokeLinecap="round" />
-          <path d="M52 21 L58 13" stroke="#E9B872" strokeWidth="3" strokeLinecap="round" />
-          <path d="M20 30 L12 26" stroke="#E9B872" strokeWidth="3" strokeLinecap="round" />
-          <path d="M60 30 L68 26" stroke="#E9B872" strokeWidth="3" strokeLinecap="round" />
-
-          {/* Protective Roof */}
-          <path d="M14 38 L40 16 L66 38" stroke="#1B4332" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
-
-          {/* Foliage */}
-          <path d="M12 44 C 12 62, 24 74, 40 74 C 56 74, 68 62, 68 44 C 63 56, 50 64, 40 64 C 30 64, 17 56, 12 44 Z" fill="#2D6A4F" />
-
-          {/* Children */}
-          <circle cx="32" cy="36" r="5" fill="#143627" />
-          <path d="M24 52 C 24 45, 29 42, 32 42 C 35 42, 40 45, 40 52 Z" fill="#143627" />
-          <circle cx="47" cy="39" r="4.2" fill="#143627" />
-          <path d="M40 53 C 40 47, 44 44, 47 44 C 50 44, 54 47, 54 53 Z" fill="#143627" />
-
-          {/* Heart */}
-          <path d="M40 30 C 38 27, 35 28, 35 30 C 35 33, 40 36, 40 36 C 40 36, 45 33, 45 30 C 45 28, 42 27, 40 30 Z" fill="#D4A373" />
-        </svg>
-      </span>
-    );
-  };
-
-  if (iconOnly) {
-    return (
-      <div translate="no" className={`notranslate ${className}`} aria-label={`${siteName} Emblem`}>
-        {renderEmblem()}
+      <div
+        translate="no"
+        className={`notranslate inline-flex items-center justify-center shrink-0 ${className}`}
+        aria-label={`${siteName} Logo`}
+        data-brand-logo="true"
+      >
+        {renderEmblem('h-full w-full max-h-full max-w-full')}
       </div>
     );
   }
 
   return (
-    <div translate="no" className={`notranslate flex items-center gap-3 shrink-0 ${className}`}>
-      {renderEmblem()}
+    <div
+      translate="no"
+      className={`notranslate flex items-center gap-2.5 sm:gap-3 shrink-0 ${className}`}
+      data-brand-logo="true"
+    >
+      {renderEmblem('h-10 w-10 sm:h-11 sm:w-11')}
 
       {showText && (
         <div translate="no" className="notranslate flex flex-col min-w-0">
@@ -97,3 +79,5 @@ export const EdenLogo: React.FC<EdenLogoProps> = ({
     </div>
   );
 };
+
+export default EdenLogo;

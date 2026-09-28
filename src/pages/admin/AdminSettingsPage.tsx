@@ -373,7 +373,7 @@ const AdminSettingsForm: React.FC<AdminSettingsFormProps> = ({ initialSettings, 
               ) : (
                 <div className="flex flex-col items-center gap-1.5 text-center">
                   <EdenLogo showText={false} className="h-12 w-12" />
-                  <span className="text-[11px] text-on-surface-variant font-medium">Default Crest</span>
+                  <span className="text-[11px] text-on-surface-variant font-medium">Default Logo</span>
                 </div>
               )}
             </div>
@@ -399,7 +399,7 @@ const AdminSettingsForm: React.FC<AdminSettingsFormProps> = ({ initialSettings, 
                     onClick={() => setFormData({ ...formData, logoUrl: '' })}
                     className="ml-3 text-[13px] text-error hover:underline font-semibold"
                   >
-                    Reset to Default Crest
+                    Reset to Default Logo
                   </button>
                 )}
               </div>
