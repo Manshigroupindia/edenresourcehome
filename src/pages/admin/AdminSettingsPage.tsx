@@ -22,6 +22,7 @@ import { uploadToCloudinary } from '../../lib/cloudinary';
 import { EdenLogo } from '../../components/common/EdenLogo';
 import { useVisitorCount } from '../../hooks/useVisitorCount';
 import { adjustVisitorCount, setExactVisitorCount } from '../../lib/visitorCounter';
+import { DonationSettingsCard } from '../../components/admin/DonationSettingsCard';
 
 interface AdminSettingsFormProps {
   initialSettings: SiteSettings;
@@ -969,6 +970,9 @@ const AdminSettingsForm: React.FC<AdminSettingsFormProps> = ({ initialSettings, 
           </button>
         </div>
       </form>
+
+      {/* Dedicated Donation Payment Details Card */}
+      <DonationSettingsCard />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDonationSettings } from '../../hooks/useDonationSettings';
 
 interface DonationFormData {
   amount: string;
@@ -10,6 +11,9 @@ interface DonationFormData {
 }
 
 export const DonationForm: React.FC = () => {
+  const { donationSettings } = useDonationSettings();
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
   const [formData, setFormData] = useState<DonationFormData>({
     amount: '',
     fullName: '',
@@ -18,6 +22,30 @@ export const DonationForm: React.FC = () => {
     message: '',
     paymentMethod: 'upi'
   });
+
+  const handleCopy = async (text: string, key: string) => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.style.position = 'fixed';
+        el.style.opacity = '0';
+        document.body.appendChild(el);
+        el.focus();
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+      setCopiedKey(key);
+      setTimeout(() => {
+        setCopiedKey((curr) => (curr === key ? null : curr));
+      }, 2500);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  };
 
   const [errors, setErrors] = useState<Partial<Record<keyof DonationFormData, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -114,6 +142,129 @@ export const DonationForm: React.FC = () => {
             <span className="uppercase">{formData.paymentMethod}</span>
           </div>
         </div>
+
+        {/* Dynamic CMS-Configured UPI Details upon selection */}
+        {formData.paymentMethod === 'upi' && donationSettings.upi?.enabled && donationSettings.upi?.id && (
+          <div className="p-5 rounded-xl bg-surface-container-low text-left space-y-3 max-w-md mx-auto border border-outline-variant/30">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-2">
+              <span className="font-bold text-primary flex items-center gap-1.5 text-title-sm">
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px]">qr_code_2</span>
+                UPI Payment Details
+              </span>
+              <span className="text-[11px] text-secondary font-bold uppercase tracking-wider">Direct Transfer</span>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-xs text-on-surface-variant font-medium block">UPI ID (VPA):</span>
+              <div className="flex items-center justify-between gap-2 p-2.5 rounded-lg bg-surface-container-lowest">
+                <span className="font-mono text-primary font-bold select-all break-all text-sm">{donationSettings.upi.id}</span>
+                <button
+                  type="button"
+                  onClick={() => handleCopy(donationSettings.upi.id, 'submitted_upi')}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-bold hover:bg-secondary transition-all shrink-0 cursor-pointer"
+                >
+                  <span translate="no" className="notranslate material-symbols-outlined text-[14px]">
+                    {copiedKey === 'submitted_upi' ? 'check' : 'content_copy'}
+                  </span>
+                  <span>{copiedKey === 'submitted_upi' ? 'UPI ID copied' : 'Copy UPI ID'}</span>
+                </button>
+              </div>
+            </div>
+
+            {donationSettings.upi.name && (
+              <div className="flex justify-between text-xs pt-1">
+                <span className="text-on-surface-variant font-medium">Account Name:</span>
+                <span className="font-bold text-primary">{donationSettings.upi.name}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Dynamic CMS-Configured Bank Transfer Details upon selection */}
+        {formData.paymentMethod === 'netbanking' && donationSettings.bank?.enabled && (
+          <div className="p-5 rounded-xl bg-surface-container-low text-left space-y-3 max-w-md mx-auto border border-outline-variant/30">
+            <div className="flex items-center justify-between border-b border-outline-variant/20 pb-2">
+              <span className="font-bold text-primary flex items-center gap-1.5 text-title-sm">
+                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px]">account_balance</span>
+                Bank Transfer Details
+              </span>
+              <span className="text-[11px] text-secondary font-bold uppercase tracking-wider">NEFT / RTGS / IMPS</span>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              {donationSettings.bank.accountName && (
+                <div className="flex justify-between border-b border-outline-variant/20 pb-1.5">
+                  <span className="text-on-surface-variant">Account Name:</span>
+                  <span className="font-bold text-primary">{donationSettings.bank.accountName}</span>
+                </div>
+              )}
+              {donationSettings.bank.bankName && (
+                <div className="flex justify-between border-b border-outline-variant/20 pb-1.5">
+                  <span className="text-on-surface-variant">Bank Name:</span>
+                  <span className="font-bold text-primary">{donationSettings.bank.bankName}</span>
+                </div>
+              )}
+              {donationSettings.bank.branch && (
+                <div className="flex justify-between border-b border-outline-variant/20 pb-1.5">
+                  <span className="text-on-surface-variant">Branch:</span>
+                  <span className="font-bold text-primary">{donationSettings.bank.branch}</span>
+                </div>
+              )}
+              {donationSettings.bank.accountNumber && (
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest">
+                  <div>
+                    <span className="text-on-surface-variant block text-[11px]">Account Number:</span>
+                    <span className="font-mono text-primary font-bold select-all text-sm">{donationSettings.bank.accountNumber}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(donationSettings.bank.accountNumber || '', 'submitted_acc')}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-primary text-on-primary text-xs font-bold hover:bg-secondary transition-all shrink-0 cursor-pointer"
+                  >
+                    <span translate="no" className="notranslate material-symbols-outlined text-[14px]">
+                      {copiedKey === 'submitted_acc' ? 'check' : 'content_copy'}
+                    </span>
+                    <span>{copiedKey === 'submitted_acc' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+              )}
+              {donationSettings.bank.ifsc && (
+                <div className="flex items-center justify-between p-2.5 rounded-lg bg-surface-container-lowest">
+                  <div>
+                    <span className="text-on-surface-variant block text-[11px]">IFSC Code:</span>
+                    <span className="font-mono text-primary font-bold uppercase select-all text-sm">{donationSettings.bank.ifsc}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(donationSettings.bank.ifsc || '', 'submitted_ifsc')}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-primary text-on-primary text-xs font-bold hover:bg-secondary transition-all shrink-0 cursor-pointer"
+                  >
+                    <span translate="no" className="notranslate material-symbols-outlined text-[14px]">
+                      {copiedKey === 'submitted_ifsc' ? 'check' : 'content_copy'}
+                    </span>
+                    <span>{copiedKey === 'submitted_ifsc' ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+              )}
+              {donationSettings.bank.accountType && (
+                <div className="flex justify-between pt-1">
+                  <span className="text-on-surface-variant">Account Type:</span>
+                  <span className="font-bold text-primary">{donationSettings.bank.accountType}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Dynamic Instructions */}
+        {donationSettings.instructions && (
+          <div className="p-4 rounded-xl bg-surface-container text-body-sm text-on-surface-variant max-w-lg mx-auto flex items-start gap-3">
+            <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">receipt_long</span>
+            <p className="text-left text-xs sm:text-sm whitespace-pre-line leading-relaxed">
+              {donationSettings.instructions}
+            </p>
+          </div>
+        )}
 
         <div className="p-4 rounded-xl bg-surface-container text-body-sm text-on-surface-variant max-w-lg mx-auto flex items-start gap-3">
           <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
@@ -344,6 +495,66 @@ export const DonationForm: React.FC = () => {
               </label>
             ))}
           </div>
+
+          {/* Active Payment Mode Previews */}
+          {formData.paymentMethod === 'upi' && donationSettings.upi?.enabled && donationSettings.upi?.id && (
+            <div className="p-3.5 rounded-xl bg-secondary-fixed/40 border border-secondary/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+              <div>
+                <span className="font-semibold text-primary block">Official Beneficiary UPI ID:</span>
+                <span className="font-mono font-bold text-primary text-sm">{donationSettings.upi.id}</span>
+                {donationSettings.upi.name && <span className="text-on-surface-variant block">Name: {donationSettings.upi.name}</span>}
+              </div>
+              <button
+                type="button"
+                onClick={() => handleCopy(donationSettings.upi.id, 'form_preview_upi')}
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary text-on-primary font-bold hover:bg-secondary transition-all shrink-0 self-start sm:self-auto cursor-pointer"
+              >
+                <span translate="no" className="notranslate material-symbols-outlined text-[14px]">
+                  {copiedKey === 'form_preview_upi' ? 'check' : 'content_copy'}
+                </span>
+                <span>{copiedKey === 'form_preview_upi' ? 'UPI ID copied' : 'Copy UPI ID'}</span>
+              </button>
+            </div>
+          )}
+
+          {formData.paymentMethod === 'netbanking' && donationSettings.bank?.enabled && donationSettings.bank?.accountNumber && (
+            <div className="p-3.5 rounded-xl bg-surface-container border border-outline-variant/30 space-y-2 text-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                <span className="font-semibold text-primary">Direct Bank Account:</span>
+                {donationSettings.bank.bankName && <span className="text-on-surface-variant font-medium">{donationSettings.bank.bankName}</span>}
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest">
+                  <span className="text-on-surface-variant">A/C: <strong className="text-primary font-mono">{donationSettings.bank.accountNumber}</strong></span>
+                  <button
+                    type="button"
+                    onClick={() => handleCopy(donationSettings.bank.accountNumber || '', 'form_preview_acc')}
+                    className="text-primary hover:text-secondary p-1"
+                    title="Copy Account Number"
+                  >
+                    <span translate="no" className="notranslate material-symbols-outlined text-[15px]">
+                      {copiedKey === 'form_preview_acc' ? 'check' : 'content_copy'}
+                    </span>
+                  </button>
+                </div>
+                {donationSettings.bank.ifsc && (
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-surface-container-lowest">
+                    <span className="text-on-surface-variant">IFSC: <strong className="text-primary font-mono">{donationSettings.bank.ifsc}</strong></span>
+                    <button
+                      type="button"
+                      onClick={() => handleCopy(donationSettings.bank.ifsc || '', 'form_preview_ifsc')}
+                      className="text-primary hover:text-secondary p-1"
+                      title="Copy IFSC"
+                    >
+                      <span translate="no" className="notranslate material-symbols-outlined text-[15px]">
+                        {copiedKey === 'form_preview_ifsc' ? 'check' : 'content_copy'}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Submit Button */}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { DonationForm } from '../components/forms/DonationForm';
+import { DonationPaymentDetails } from '../components/donation/DonationPaymentDetails';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
 import { useSiteSettings } from '../hooks/useSiteSettings';
@@ -243,6 +244,9 @@ export const DonatePage: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* CMS-MANAGED DIRECT PAYMENT DETAILS (UPI & BANK TRANSFER) */}
+        <DonationPaymentDetails />
       </div>
     </>
   );
