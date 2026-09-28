@@ -9,7 +9,8 @@ import {
   Menu,
   X,
   ShieldCheck,
-  User as UserIcon
+  User as UserIcon,
+  Users
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useSiteSettings } from '../../hooks/useSiteSettings';
@@ -38,6 +39,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Dashboard', path: '/admin', icon: LayoutDashboard, end: true },
     { label: 'Global Settings', path: '/admin/settings', icon: Settings, end: false },
     { label: 'Gallery CMS', path: '/admin/gallery', icon: ImageIcon, end: false },
+    { label: 'Our Team', path: '/admin/team', icon: Users, end: false },
   ];
 
   return (

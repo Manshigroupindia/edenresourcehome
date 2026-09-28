@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { siteConfig } from '../data/siteConfig';
-import { caregiverTeam } from '../data/team';
 import { archivalMilestones } from '../data/awards';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { CTASection } from '../components/common/CTASection';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { useTeam } from '../hooks/useTeam';
+import { useFounder } from '../hooks/useFounder';
 
 export const AboutPage: React.FC = () => {
+  const { team } = useTeam();
+  const { founder } = useFounder();
   return (
     <>
       <SeoMeta
@@ -342,82 +345,118 @@ export const AboutPage: React.FC = () => {
             </div>
 
             {/* Founders Highlight Card */}
-            <div className="p-8 lg:p-12 rounded-3xl bg-surface-container-lowest shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-outline-variant/20">
-              <div className="lg:col-span-5 rounded-2xl overflow-hidden aspect-[4/3] bg-surface-container shadow-md">
-                <ImageWithFallback
-                  src={siteConfig.founders.image}
-                  alt={siteConfig.founders.names}
-                  className="w-full h-full"
-                />
-              </div>
-
-              <div className="lg:col-span-7 space-y-5">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-primary font-label-md text-label-md font-bold">
-                  {siteConfig.founders.title}
+            {founder.isActive && (
+              <div className="p-8 lg:p-12 rounded-3xl bg-surface-container-lowest shadow-lg grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-outline-variant/20">
+                <div className="lg:col-span-5 rounded-2xl overflow-hidden aspect-[4/3] bg-surface-container shadow-md">
+                  <ImageWithFallback
+                    src={founder.imageUrl || siteConfig.founders.image}
+                    alt={founder.name || siteConfig.founders.names}
+                    className="w-full h-full"
+                  />
                 </div>
 
-                <h3 className="font-headline-md text-headline-md text-primary font-bold">
-                  {siteConfig.founders.names}
-                </h3>
+                <div className="lg:col-span-7 space-y-5">
+                  {founder.designation && (
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-primary font-label-md text-label-md font-bold">
+                      {founder.designation}
+                    </div>
+                  )}
 
-                <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                  {siteConfig.founders.bio}
-                </p>
+                  {founder.name && (
+                    <h3 className="font-headline-md text-headline-md text-primary font-bold">
+                      {founder.name}
+                    </h3>
+                  )}
 
-                <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
-                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">verified_user</span>
-                    <div>
-                      <p className="font-title-md text-title-md text-primary font-bold">
-                        {siteConfig.yearsOfService}
-                      </p>
-                      <p className="font-body-sm text-body-sm text-on-surface-variant">
-                        Continuous hands-on guardianship
+                  {founder.fullDescription && (
+                    <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                      {founder.fullDescription}
+                    </p>
+                  )}
+
+                  {founder.quote && (
+                    <div className="p-4 rounded-xl bg-surface-container flex items-center gap-3 border-l-4 border-secondary">
+                      <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px] shrink-0">format_quote</span>
+                      <p className="font-title-sm text-title-sm text-primary italic leading-snug">
+                        "{founder.quote}"
                       </p>
                     </div>
-                  </div>
+                  )}
 
-                  <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
-                    <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">handshake</span>
-                    <div>
-                      <p className="font-title-md text-title-md text-primary font-bold">Community Trust</p>
-                      <p className="font-body-sm text-body-sm text-on-surface-variant">
-                        Revered across Ukhrul District
-                      </p>
+                  <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
+                      <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">verified_user</span>
+                      <div>
+                        <p className="font-title-md text-title-md text-primary font-bold">
+                          {siteConfig.yearsOfService}
+                        </p>
+                        <p className="font-body-sm text-body-sm text-on-surface-variant">
+                          Continuous hands-on guardianship
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-surface-container-low flex items-start gap-3">
+                      <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[24px]">handshake</span>
+                      <div>
+                        <p className="font-title-md text-title-md text-primary font-bold">Community Trust</p>
+                        <p className="font-body-sm text-body-sm text-on-surface-variant">
+                          Revered across Ukhrul District
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Additional Caregivers Team Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
-              {caregiverTeam.map((member) => (
-                <div
-                  key={member.id}
-                  className="p-6 rounded-2xl bg-surface-container-low shadow-sm flex flex-col space-y-4 border border-outline-variant/15 hover:shadow-md transition-shadow"
-                >
-                  <div className="w-full h-52 rounded-xl overflow-hidden bg-surface-container">
-                    <ImageWithFallback
-                      src={member.image}
-                      alt={member.alt}
-                      className="w-full h-full"
-                    />
+            {team.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+                {team.map((member) => (
+                  <div
+                    key={member.id}
+                    className="p-6 rounded-2xl bg-surface-container-low shadow-sm flex flex-col space-y-4 border border-outline-variant/15 hover:shadow-md transition-shadow"
+                  >
+                    <div className="w-full h-52 rounded-xl overflow-hidden bg-surface-container">
+                      {member.imageUrl ? (
+                        <ImageWithFallback
+                          src={member.imageUrl}
+                          alt={member.name || member.designation || 'Team Member'}
+                          className="w-full h-full"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center bg-surface-container text-on-surface-variant/40">
+                          <span translate="no" className="notranslate material-symbols-outlined text-[56px] text-primary/40">
+                            person
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      {(member.role || member.designation) && (
+                        <span className="font-label-md text-label-md text-secondary block font-bold">
+                          {member.role || member.designation}
+                        </span>
+                      )}
+                      <h4 className="font-title-lg text-title-lg text-primary font-bold">
+                        {member.name || member.designation}
+                      </h4>
+                      {member.role && member.designation && member.name && member.designation !== member.name && member.designation !== member.role && (
+                        <p className="font-label-sm text-[12px] font-semibold text-primary/75 mt-0.5">
+                          {member.designation}
+                        </p>
+                      )}
+                      {member.bio && (
+                        <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
+                          {member.bio}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <span className="font-label-md text-label-md text-secondary block font-bold">
-                      {member.role}
-                    </span>
-                    <h4 className="font-title-lg text-title-lg text-primary font-bold">
-                      {member.title}
-                    </h4>
-                    <p className="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-relaxed">
-                      {member.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

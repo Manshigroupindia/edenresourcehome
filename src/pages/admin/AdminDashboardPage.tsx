@@ -10,7 +10,8 @@ import {
   PlusCircle,
   ExternalLink,
   Sparkles,
-  Calendar
+  Calendar,
+  Users
 } from 'lucide-react';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -88,6 +89,14 @@ export const AdminDashboardPage: React.FC = () => {
             >
               <PlusCircle className="w-4 h-4 text-secondary-fixed" />
               <span>Upload Gallery Image</span>
+            </Link>
+
+            <Link
+              to="/admin/team"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/15 text-white font-semibold text-[13.5px] hover:bg-white/25 transition-colors"
+            >
+              <Users className="w-4 h-4 text-secondary-fixed" />
+              <span>Our Team &amp; Founder</span>
             </Link>
 
             <Link

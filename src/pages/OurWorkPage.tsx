@@ -4,8 +4,10 @@ import { siteConfig } from '../data/siteConfig';
 import { programsData } from '../data/programs';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { useFounder } from '../hooks/useFounder';
 
 export const OurWorkPage: React.FC = () => {
+  const { founder } = useFounder();
   return (
     <>
       <SeoMeta
@@ -487,7 +489,7 @@ export const OurWorkPage: React.FC = () => {
                     “Every child deserves not just survival, but an enduring foundation of warmth, dignity, and a clear horizon of dreams.”
                   </p>
                   <p className="font-body-md text-body-md text-on-primary-container">
-                    — Founders {siteConfig.founders.names}, Eden Resource Home, Manipur
+                    — Founders {founder.name || siteConfig.founders.names}, Eden Resource Home, Manipur
                   </p>
                 </div>
 

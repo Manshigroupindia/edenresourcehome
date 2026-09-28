@@ -28,6 +28,7 @@ import { AdminLoginPage } from './pages/admin/AdminLoginPage';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 import { AdminGalleryPage } from './pages/admin/AdminGalleryPage';
+import { AdminTeamPage } from './pages/admin/AdminTeamPage';
 
 // Public layout wrapper containing public Navbar and Footer
 const PublicLayout: React.FC = () => {
@@ -88,6 +89,7 @@ export const App: React.FC = () => {
               <Route index element={<AdminDashboardPage />} />
               <Route path="settings" element={<AdminSettingsPage />} />
               <Route path="gallery" element={<AdminGalleryPage />} />
+              <Route path="team" element={<AdminTeamPage />} />
               <Route path="*" element={<Navigate to="/admin" replace />} />
             </Route>
           </Routes>

@@ -5,8 +5,10 @@ import { programsData } from '../data/programs';
 import { SeoMeta } from '../components/common/SeoMeta';
 import { CTASection } from '../components/common/CTASection';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { useFounder } from '../hooks/useFounder';
 
 export const HomePage: React.FC = () => {
+  const { founder } = useFounder();
   return (
     <>
       <SeoMeta
@@ -312,18 +314,24 @@ export const HomePage: React.FC = () => {
                 Founded on Compassion in the Hills of Ukhrul
               </h2>
               <p className="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                In 2001, moved by the silent struggles of orphaned and underprivileged children in the conflict-affected hill districts of Manipur, <strong>Mr. R.M. Sangreingam</strong> and his wife <strong>Mrs. R.M. Tanmila</strong> opened their doors. What began as a humble family initiative to feed and shelter a handful of young souls quickly matured into Eden Resource Home.
+                {founder.fullDescription || (
+                  <>
+                    In 2001, moved by the silent struggles of orphaned and underprivileged children in the conflict-affected hill districts of Manipur, <strong>Mr. R.M. Sangreingam</strong> and his wife <strong>Mrs. R.M. Tanmila</strong> opened their doors. What began as a humble family initiative to feed and shelter a handful of young souls quickly matured into Eden Resource Home.
+                  </>
+                )}
               </p>
               <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
                 Over two decades of selfless dedication transformed this mountain haven into a beacon of stability. Here, children find more than meals and a bed — they discover a real family, unconditional encouragement, and the moral strength to overcome life’s harshest early obstacles.
               </p>
 
-              <div className="p-6 rounded-xl bg-surface-container flex items-center gap-4 border-l-4 border-secondary">
-                <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[32px] shrink-0">format_quote</span>
-                <p className="font-title-md text-title-md text-primary italic leading-snug">
-                  "To see a child smile with renewed self-respect and step boldly into the future is the highest reward of our collective service."
-                </p>
-              </div>
+              {founder.quote ? (
+                <div className="p-6 rounded-xl bg-surface-container flex items-center gap-4 border-l-4 border-secondary">
+                  <span translate="no" className="notranslate material-symbols-outlined text-secondary text-[32px] shrink-0">format_quote</span>
+                  <p className="font-title-md text-title-md text-primary italic leading-snug">
+                    "{founder.quote}"
+                  </p>
+                </div>
+              ) : null}
 
               <div className="pt-2">
                 <Link
@@ -336,23 +344,32 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-5 relative">
-              <div className="rounded-2xl overflow-hidden shadow-xl bg-surface-container">
-                <ImageWithFallback
-                  src="/images/36-founders-mr-sangreingam-and-mrs-tanmila-.jpg"
-                  alt="Founders Mr Sangreingam and Mrs Tanmila standing warmly in front of Eden Resource Home building"
-                  className="w-full h-[420px]"
-                />
+            {founder.isActive ? (
+              <div className="lg:col-span-5 relative">
+                <div className="rounded-2xl overflow-hidden shadow-xl bg-surface-container">
+                  <ImageWithFallback
+                    src={founder.imageUrl || "/images/36-founders-mr-sangreingam-and-mrs-tanmila-.jpg"}
+                    alt={founder.name ? `Founders ${founder.name}` : "Founders Mr Sangreingam and Mrs Tanmila standing warmly in front of Eden Resource Home building"}
+                    className="w-full h-[420px]"
+                  />
+                </div>
+                {(founder.name || founder.shortDescription) ? (
+                  <div className="mt-4 p-4 rounded-xl bg-surface-container-low text-center border border-outline-variant/20">
+                    {founder.name ? (
+                      <p className="font-label-md text-label-md text-on-surface font-semibold">
+                        {founder.designation ? `${founder.designation}: ` : 'Founders: '}
+                        {founder.name}
+                      </p>
+                    ) : null}
+                    {founder.shortDescription ? (
+                      <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                        {founder.shortDescription}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
               </div>
-              <div className="mt-4 p-4 rounded-xl bg-surface-container-low text-center border border-outline-variant/20">
-                <p className="font-label-md text-label-md text-on-surface font-semibold">
-                  Founders: {siteConfig.founders.names}
-                </p>
-                <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  Guiding the home with love, humility, and steadfast vision since {siteConfig.establishedYear}
-                </p>
-              </div>
-            </div>
+            ) : null}
           </div>
         </section>
 
